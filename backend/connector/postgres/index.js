@@ -1,5 +1,9 @@
 import 'dotenv/config'
 
+/**
+ * https://sequelize.org/docs/v6/getting-started/
+ */
+
 import { Sequelize } from 'sequelize'
 
 const { POSTGRES_USER, POSTGRES_PWD, POSTGRES_HOST, POSTGRES_PORT, POSTGRES_DB } = process.env

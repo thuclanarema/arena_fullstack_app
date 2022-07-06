@@ -6,12 +6,15 @@ const success = (res, data) => {
 }
 
 const error = (res, error, status) => {
+  let message = error.message
+
+  if (error.errors?.[0]?.message) {
+    message = error.errors[0].message
+  }
+
   return res.status(status || 500).json({
     success: false,
-    error: {
-      ...error,
-      message: error.message,
-    },
+    error: { message },
   })
 }
 
@@ -20,4 +23,4 @@ const ResponseHandler = {
   error,
 }
 
-module.exports = ResponseHandler
+export default ResponseHandler

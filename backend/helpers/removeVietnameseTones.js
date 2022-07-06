@@ -42,4 +42,4 @@ const removeVietnameseTones = (value) => {
   }
 }
 
-module.exports = removeVietnameseTones
+export default removeVietnameseTones

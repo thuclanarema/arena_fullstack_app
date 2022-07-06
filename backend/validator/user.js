@@ -1,42 +1,53 @@
-const ResponseHandler = require('../helpers/responseHandler')
+import ResponseHandler from '../helpers/responseHandler.js'
+import Joi from 'joi'
 
-const create = async (req, res, next) => {
-  const { firstName, lastName, email, password } = req.body
+const loginSchema = Joi.object({
+  username: Joi.string().min(3).max(30).required(),
+  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+})
 
-  // validate
-  let paramObj = { firstName, lastName, email, password }
-  let paramKeys = Object.keys(paramObj)
-  for (let i = 0, leng = paramKeys.length; i < leng; i++) {
-    if (!paramObj[paramKeys[i]]) {
-      return ResponseHandler.error(res, {
-        message: `Bad request. Field ${paramKeys[i]} cannot be blank`,
-        field: paramKeys[i],
-      })
+const schema = Joi.object({
+  firstName: Joi.string().alphanum().min(3).max(30).required(),
+  lastName: Joi.string().alphanum().min(3).max(30).required(),
+  email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+    .required(),
+  username: Joi.string().min(3).max(30).required(),
+  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+  genre: Joi.boolean(),
+  birthday: Joi.string(),
+  avatar: Joi.any(),
+  photo: Joi.any(),
+})
+
+export default {
+  create: async (req, res, next) => {
+    try {
+      await schema.validateAsync(req.body)
+
+      next()
+    } catch (error) {
+      return ResponseHandler.error(res, error)
     }
-  }
+  },
 
-  next()
-}
+  update: async (req, res, next) => {
+    try {
+      await schema.validateAsync(req.body)
 
-const login = async (req, res, next) => {
-  const { username, password } = req.body
-
-  // validate
-  let paramObj = { username, password }
-  let paramKeys = Object.keys(paramObj)
-  for (let i = 0, leng = paramKeys.length; i < leng; i++) {
-    if (!paramObj[paramKeys[i]]) {
-      return ResponseHandler.error(res, {
-        message: `Bad request. Field ${paramKeys[i]} cannot be blank`,
-        field: paramKeys[i],
-      })
+      next()
+    } catch (error) {
+      return ResponseHandler.error(res, error)
     }
-  }
+  },
 
-  next()
-}
+  login: async (req, res, next) => {
+    try {
+      await loginSchema.validateAsync(req.body)
 
-module.exports = {
-  create,
-  login,
+      next()
+    } catch (error) {
+      return ResponseHandler.error(res, error)
+    }
+  },
 }

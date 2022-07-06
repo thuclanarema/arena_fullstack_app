@@ -1,13 +1,12 @@
-const removeVietnameseTones = require('./removeVietnameseTones')
+import removeVietnameseTones from './removeVietnameseTones.js'
 
 /**
  *
  * @param {String} value
  * @param {Number} length
- * @param {Boolean} timestamp
  * @returns String
  */
-const generateSlug = (value, length, timestamp) => {
+const generateSlug = (value, length) => {
   try {
     if (value) {
       let slug = value
@@ -21,10 +20,6 @@ const generateSlug = (value, length, timestamp) => {
         .replace(/---+/g, '-')
         .replace(/--+/g, '-')
 
-      if (timestamp) {
-        slug = slug + '-' + Date.now()
-      }
-
       return slug
     }
 
@@ -35,4 +30,4 @@ const generateSlug = (value, length, timestamp) => {
   }
 }
 
-module.exports = generateSlug
+export default generateSlug

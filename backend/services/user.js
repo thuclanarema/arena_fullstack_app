@@ -1,88 +1,123 @@
-const generateSlug = require('../helpers/generateSlug')
-const Model = require('./../models/user')
+import CloudinaryUploader from '../connector/cloudinary/index.js'
+import generateSlug from '../helpers/generateSlug.js'
+import Model from './../models/user.js'
 
-const find = async (req) => {
-  try {
-    const { filter } = req.query
+export default {
+  find: async (req) => {
+    try {
+      const { filter } = req.query
 
-    return await Model.find(filter ? JSON.parse(filter) : {})
-  } catch (error) {
-    throw error
-  }
-}
+      return await Model.find(filter ? JSON.parse(filter) : {})
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  },
 
-const findById = async (req) => {
-  try {
-    const { id } = req.params
+  findById: async (req) => {
+    try {
+      const { id } = req.params
 
-    return await Model.findById(id)
-  } catch (error) {
-    throw error
-  }
-}
+      return await Model.findById(id)
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  },
 
-const create = async (req) => {
-  try {
-    let data = { ...req.body }
+  create: async (req) => {
+    try {
+      let data = { ...req.body }
 
-    // generate username
-    data.username = data.username
-      ? data.username
-      : generateSlug(data.first_name + '-' + data.last_name)
+      // generate username if not any
+      if (!data.username) {
+        data.username = generateSlug(data.firstName + '-' + data.lastName)
+      }
 
-    return await Model.create(data)
-  } catch (error) {
-    throw error
-  }
-}
+      if (req.files.avatar) {
+        // upload to cloudinary
+        let file = await CloudinaryUploader.upload(req.files.avatar[0])
 
-const update = async (req) => {
-  try {
-    const { id } = req.params
-    const data = { ...req.body }
+        data.avatar = file.secure_url
+      }
 
-    return await Model.update({ id, data })
-  } catch (error) {
-    throw error
-  }
-}
+      if (req.files.photos) {
+        // upload to cloudinary
+        let files = []
+        for (let i = 0; i < req.files.photos.length; i++) {
+          let file = await CloudinaryUploader.upload(req.files.photos[i])
+          files.push(file)
+        }
 
-const _delete = async (req) => {
-  try {
-    const { id } = req.params
+        data.photos = files.map((item) => item.secure_url)
+      }
 
-    return await Model.delete(id)
-  } catch (error) {
-    throw error
-  }
-}
+      return await Model.create(data)
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  },
 
-const login = async (req) => {
-  try {
-    const { username, password } = req.body
+  update: async (req) => {
+    try {
+      const { id } = req.params
+      const data = { ...req.body }
 
-    return await Model.login({ username, password })
-  } catch (error) {
-    throw error
-  }
-}
+      if (req.files.avatar) {
+        // upload to cloudinary
+        let file = await CloudinaryUploader.upload(req.files.avatar[0])
 
-const getUserByToken = async (req) => {
-  try {
-    const { authorization } = req.headers
+        data.avatar = file.secure_url
+      }
 
-    return await Model.getUserByToken(authorization)
-  } catch (error) {
-    throw error
-  }
-}
+      if (req.files.photos) {
+        // upload to cloudinary
+        let files = []
+        for (let i = 0; i < req.files.photos.length; i++) {
+          let file = await CloudinaryUploader.upload(req.files.photos[i])
+          files.push(file)
+        }
 
-module.exports = {
-  find,
-  findById,
-  create,
-  update,
-  delete: _delete,
-  login,
-  getUserByToken,
+        data.photos = files.map((item) => item.secure_url)
+      }
+
+      return await Model.update(id, data)
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  },
+
+  delete: async (req) => {
+    try {
+      const { id } = req.params
+
+      return await Model.delete(id)
+    } catch (error) {
+      throw error
+    }
+  },
+
+  login: async (req) => {
+    try {
+      const { username, password } = req.body
+
+      return await Model.login(username, password)
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  },
+
+  getByToken: async (req) => {
+    try {
+      const { authorization } = req.headers
+
+      return await Model.getByToken(authorization)
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  },
 }

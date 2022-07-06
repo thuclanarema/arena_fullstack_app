@@ -1,20 +1,19 @@
-const verifyToken = async (req, res, next) => {
-  const { authorization } = req.headers
+import ResponseHandler from '../helpers/responseHandler.js'
 
-  // validate
-  let paramObj = { authorization }
-  let paramKeys = Object.keys(paramObj)
-  for (let i = 0, leng = paramKeys.length; i < leng; i++) {
-    if (!paramObj[paramKeys[i]]) {
-      return ResponseHandler.error(res, {
-        message: 'Unauthorized',
-      })
+export default {
+  verifyToken: async (req, res, next) => {
+    try {
+      const { authorization } = req.headers
+
+      if (!authorization) {
+        return ResponseHandler.error(res, {
+          message: 'Unauthorized',
+        })
+      }
+
+      next()
+    } catch (error) {
+      return ResponseHandler.error(res, error)
     }
-  }
-
-  next()
-}
-
-module.exports = {
-  verifyToken,
+  },
 }

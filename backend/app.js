@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import http from 'http'
+import cors from 'cors'
 
 import PostgresSequelize from './connector/postgres/index.js'
 
@@ -25,6 +26,7 @@ app.set('port', PORT)
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
+app.use(cors())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
