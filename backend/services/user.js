@@ -1,13 +1,13 @@
 import CloudinaryUploader from '../connector/cloudinary/index.js'
 import generateSlug from '../helpers/generateSlug.js'
-import Model from './../models/user.js'
+import Repository from './../repositories/user.js'
 
 export default {
   find: async (req) => {
     try {
       const { filter } = req.query
 
-      return await Model.find(filter ? JSON.parse(filter) : {})
+      return await Repository.find(filter ? JSON.parse(filter) : {})
     } catch (error) {
       console.log(error)
       throw error
@@ -18,7 +18,7 @@ export default {
     try {
       const { id } = req.params
 
-      return await Model.findById(id)
+      return await Repository.findById(id)
     } catch (error) {
       console.log(error)
       throw error
@@ -52,7 +52,7 @@ export default {
         data.photos = files.map((item) => item.secure_url)
       }
 
-      return await Model.create(data)
+      return await Repository.create(data)
     } catch (error) {
       console.log(error)
       throw error
@@ -82,7 +82,7 @@ export default {
         data.photos = files.map((item) => item.secure_url)
       }
 
-      return await Model.update(id, data)
+      return await Repository.update(id, data)
     } catch (error) {
       console.log(error)
       throw error
@@ -93,7 +93,7 @@ export default {
     try {
       const { id } = req.params
 
-      return await Model.delete(id)
+      return await Repository.delete(id)
     } catch (error) {
       throw error
     }
@@ -103,7 +103,7 @@ export default {
     try {
       const { username, password } = req.body
 
-      return await Model.login(username, password)
+      return await Repository.login(username, password)
     } catch (error) {
       console.log(error)
       throw error
@@ -114,7 +114,7 @@ export default {
     try {
       const { authorization } = req.headers
 
-      return await Model.getByToken(authorization)
+      return await Repository.getByToken(authorization)
     } catch (error) {
       console.log(error)
       throw error

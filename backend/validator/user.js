@@ -14,10 +14,11 @@ const schema = Joi.object({
     .required(),
   username: Joi.string().min(3).max(30).required(),
   password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
-  genre: Joi.boolean(),
+  gender: Joi.boolean(),
   birthday: Joi.string(),
   avatar: Joi.any(),
   photo: Joi.any(),
+  countryId: Joi.number(),
 })
 
 export default {

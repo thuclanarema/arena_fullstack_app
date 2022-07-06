@@ -12,7 +12,8 @@ import cors from 'cors'
 import PostgresSequelize from './connector/postgres/index.js'
 
 import indexRouter from './routes/index.js'
-import usersRouter from './routes/users.js'
+import userRouter from './routes/user.js'
+import countryRouter from './routes/country.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -34,7 +35,8 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
-app.use('/api/users', usersRouter)
+app.use('/api/users', userRouter)
+app.use('/api/countries', countryRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

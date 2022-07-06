@@ -1,9 +1,7 @@
-import { Sequelize, DataTypes } from 'sequelize'
+import { DataTypes } from 'sequelize'
 import PostgresSequelize from '../connector/postgres/index.js'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 
-const { JWT_SECRET, JWT_EXPIRATION } = process.env
+import CountryModel from './country.js'
 
 const Model = PostgresSequelize.define('users', {
   id: {
@@ -34,7 +32,7 @@ const Model = PostgresSequelize.define('users', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  genre: {
+  gender: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
@@ -57,127 +55,13 @@ Model.prototype.toJSON = function () {
   var values = Object.assign({}, this.get())
 
   delete values.password
+  delete values.countryId
 
   return values
 }
 
+Model.belongsTo(CountryModel)
+
 Model.sync()
 
-export default {
-  find: async (filter) => {
-    try {
-      return await Model.findAll(filter)
-    } catch (error) {
-      throw error
-    }
-  },
-
-  findById: async (id) => {
-    try {
-      let res = await Model.findOne({ where: { id } })
-      if (!res) {
-        throw new Error('Not found')
-      }
-      return res
-    } catch (error) {
-      throw error
-    }
-  },
-
-  create: async (data) => {
-    try {
-      // generate password encode
-      const salt = bcrypt.genSaltSync(10)
-      const passwordEncode = bcrypt.hashSync(data.password, salt)
-      data.password = passwordEncode
-
-      return await Model.create(data)
-    } catch (error) {
-      throw error
-    }
-  },
-
-  update: async (id, data) => {
-    try {
-      let res = await Model.findOne({ where: { id } })
-      if (!res) {
-        throw new Error('Not found')
-      }
-
-      // cannot allow update specific fields
-      delete data.email
-      delete data.username
-      delete data.password
-      delete data.role
-
-      res = await Model.update(data, {
-        where: { id },
-        returning: true,
-        plain: true,
-      })
-      return res[1]
-    } catch (error) {
-      throw error
-    }
-  },
-
-  delete: async (id) => {
-    try {
-      let res = await Model.findOne({ where: { id } })
-      if (!res) {
-        throw new Error('Not found')
-      }
-
-      return await Model.destroy({ where: { id } })
-    } catch (error) {
-      throw error
-    }
-  },
-
-  login: async (username, password) => {
-    try {
-      let user = null
-      if (!user) {
-        user = await Model.findOne({ where: { username } })
-      }
-      if (!user) {
-        user = await Model.findOne({ where: { email: username } })
-      }
-      if (!user) {
-        throw new Error('Username or Password incorrect')
-      }
-
-      // compare password
-      const passwordCompare = await bcrypt.compareSync(password, user.password)
-      if (!passwordCompare) {
-        throw new Error('Username or Password incorrect')
-      }
-
-      const token = await jwt.sign({ email: user.email }, JWT_SECRET, {
-        expiresIn: JWT_EXPIRATION,
-      })
-
-      return { user, token }
-    } catch (error) {
-      throw error
-    }
-  },
-
-  getByToken: async (token) => {
-    try {
-      const bearerToken = token.replace(/Bearer /g, '').replace(/\s/g, '')
-      const decoded = await jwt.verify(bearerToken, JWT_SECRET)
-
-      if (decoded && decoded.email) {
-        let user = await Model.findOne({ where: { email: decoded.email } })
-        if (user && user.email === decoded.email) {
-          return user
-        }
-      }
-
-      throw new Error('Unauthorized')
-    } catch (error) {
-      throw error
-    }
-  },
-}
+export default Model
