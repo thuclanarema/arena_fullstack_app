@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'backend',
       script: 'npm',
-      args: 'run serve',
+      args: 'run start',
       env_development: {
         NODE_ENV: 'development',
       },

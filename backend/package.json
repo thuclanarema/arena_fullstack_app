@@ -6,7 +6,7 @@
   "scripts": {
     "mockup": "node mockup/index.js",
     "start": "nodemon app.js",
-    "serve": "node app.js"
+    "production": "node app.js"
   },
   "dependencies": {
     "axios": "^0.27.2",

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "cd backend/ && npm run serve",
     "format": "npm-run-all -p format:*",
     "format:code": "npm run prettier:code -- --write",
     "format:other": "npm run prettier:other -- --write",
