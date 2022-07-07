@@ -4,6 +4,15 @@
   "private": true,
   "scripts": {
     "serve": "cd backend/ && npm run serve",
+    "format": "npm-run-all -p format:*",
+    "format:code": "npm run prettier:code -- --write",
+    "format:other": "npm run prettier:other -- --write",
+    "prettier:code": "prettier \"**/*.js\"",
+    "prettier:other": "prettier \"**/*.{md,css,scss,yaml,yml,json,prettierrc}\"",
     "push:master": "git add . && git commit -m \"update code\" && git push origin master"
+  },
+  "dependencies": {
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1"
   }
 }

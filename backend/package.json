@@ -6,12 +6,7 @@
   "scripts": {
     "mockup": "node mockup/index.js",
     "start": "nodemon app.js",
-    "serve": "node app.js",
-    "format": "npm-run-all -p format:*",
-    "format:code": "npm run prettier:code -- --write",
-    "format:other": "npm run prettier:other -- --write",
-    "prettier:code": "prettier \"**/*.js\"",
-    "prettier:other": "prettier \"**/*.{md,css,scss,yaml,yml,json,prettierrc}\""
+    "serve": "node app.js"
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -30,9 +25,7 @@
     "morgan": "~1.9.1",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.19",
-    "npm-run-all": "^4.1.5",
     "pg": "^8.7.3",
-    "prettier": "^2.7.1",
     "pug": "2.0.0-beta11",
     "sequelize": "^6.21.2",
     "url": "^0.11.0"
