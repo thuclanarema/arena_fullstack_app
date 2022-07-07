@@ -3,13 +3,20 @@ import generateSlug from '../helpers/generateSlug.js'
 import Repository from './../repositories/user.js'
 
 export default {
+  count: async (req) => {
+    try {
+      return await Repository.count()
+    } catch (error) {
+      throw error
+    }
+  },
+
   find: async (req) => {
     try {
       const { filter } = req.query
 
       return await Repository.find(filter ? JSON.parse(filter) : {})
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -20,7 +27,6 @@ export default {
 
       return await Repository.findById(id)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -54,7 +60,6 @@ export default {
 
       return await Repository.create(data)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -84,7 +89,6 @@ export default {
 
       return await Repository.update(id, data)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -105,7 +109,6 @@ export default {
 
       return await Repository.login(username, password)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -116,7 +119,6 @@ export default {
 
       return await Repository.getByToken(authorization)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },

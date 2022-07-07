@@ -24,11 +24,11 @@ const init = async () => {
   try {
     for (let i = 0; i < entries.length; i++) {
       let { name, data, repository } = entries[i]
-      console.log(`--------------------------`)
-      console.log(`Create ${name}:`)
+      console.log(`\n--------------------------`)
+      console.log(`[${i + 1}/${entries.length}] Init ${name}:`)
 
-      let items = await repository.find({})
-      if (items.length > 0) {
+      let count = await repository.count()
+      if (count > 0) {
         console.log(`> ${name} already exist`)
         continue
       }
@@ -59,6 +59,7 @@ const init = async () => {
   } catch (error) {
     console.log(error)
   } finally {
+    console.log('\nInit database completed!')
     return
   }
 }

@@ -12,7 +12,7 @@ const error = (res, error, status) => {
     message = error.errors[0].message
   }
 
-  return res.status(status || 500).json({
+  return res.status(status || 200).json({
     success: false,
     error: { message },
   })

@@ -2,6 +2,15 @@ import ResponseHandler from './../helpers/responseHandler.js'
 import Service from './../services/user.js'
 
 export default {
+  count: async (req, res) => {
+    try {
+      const data = await Service.count(req)
+      return ResponseHandler.success(res, data)
+    } catch (error) {
+      return ResponseHandler.error(res, error)
+    }
+  },
+
   find: async (req, res) => {
     try {
       const data = await Service.find(req)

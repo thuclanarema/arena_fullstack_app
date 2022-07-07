@@ -8,11 +8,18 @@ const { JWT_SECRET, JWT_EXPIRATION } = process.env
 const include = [{ model: CountryModel, as: 'country' }]
 
 export default {
+  count: async () => {
+    try {
+      return await Model.count()
+    } catch (error) {
+      throw error
+    }
+  },
+
   find: async (filter) => {
     try {
       return await Model.findAll({ ...filter, include })
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -29,7 +36,6 @@ export default {
 
       return res
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -43,7 +49,6 @@ export default {
 
       return await Model.create(data)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -76,7 +81,6 @@ export default {
         include,
       })
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -90,7 +94,6 @@ export default {
 
       return await Model.destroy({ where: { id } })
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -126,7 +129,6 @@ export default {
 
       return { user, token }
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -145,7 +147,6 @@ export default {
 
       throw new Error('Unauthorized')
     } catch (error) {
-      console.log(error)
       throw error
     }
   },

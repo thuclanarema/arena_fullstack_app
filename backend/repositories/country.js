@@ -1,11 +1,18 @@
 import Model from '../models/country.js'
 
 export default {
+  count: async () => {
+    try {
+      return await Model.count()
+    } catch (error) {
+      throw error
+    }
+  },
+
   find: async (filter) => {
     try {
       return await Model.findAll(filter)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -19,7 +26,6 @@ export default {
 
       return res
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -28,7 +34,6 @@ export default {
     try {
       return await Model.create(data)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -48,7 +53,6 @@ export default {
 
       return res[1]
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -62,7 +66,6 @@ export default {
 
       return await Model.destroy({ where: { id } })
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
