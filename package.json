@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "cd backend/ && npm run serve"
+    "serve": "cd backend/ && npm run serve",
+    "push:master": "git add . && git commit -m \"update code\" && git push origin master"
   }
 }
