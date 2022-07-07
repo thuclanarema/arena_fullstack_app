@@ -8,6 +8,7 @@
     "format:other": "npm run prettier:other -- --write",
     "prettier:code": "prettier \"**/*.js\"",
     "prettier:other": "prettier \"**/*.{md,css,scss,yaml,yml,json,prettierrc}\"",
+    "push:dev": "git add . && git commit -m \"update code\" && git push origin dev",
     "push:master": "git add . && git commit -m \"update code\" && git push origin master"
   },
   "dependencies": {
