@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "mockup": "node mockup/index.js",
     "start": "nodemon app.js",
     "production": "node app.js"
   },

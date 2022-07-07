@@ -9,11 +9,9 @@ import logger from 'morgan'
 import http from 'http'
 import cors from 'cors'
 
-import PostgresSequelize from './connector/postgres/index.js'
-
-import indexRouter from './routes/index.js'
-import userRouter from './routes/user.js'
-import countryRouter from './routes/country.js'
+import indexRouter from './src/routes/index.js'
+import userRouter from './src/routes/user.js'
+import countryRouter from './src/routes/country.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -24,7 +22,7 @@ const PORT = process.env.PORT || 5000
 
 // view engine setup
 app.set('port', PORT)
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, 'src/views'))
 app.set('view engine', 'pug')
 
 app.use(cors())
