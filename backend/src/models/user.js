@@ -64,7 +64,6 @@ Model.prototype.toJSON = function () {
   var values = Object.assign({}, this.get())
 
   delete values.password
-  delete values.countryId
 
   return values
 }

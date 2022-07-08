@@ -12,7 +12,11 @@ export default {
   find: async ({ page, limit }) => {
     try {
       const count = await Model.count()
-      const items = await Model.findAll({ limit, offset: (page - 1) * limit })
+      const items = await Model.findAll({
+        limit,
+        offset: (page - 1) * limit,
+        order: [['updatedAt', 'DESC']],
+      })
 
       return {
         items,

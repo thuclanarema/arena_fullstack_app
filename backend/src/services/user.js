@@ -1,5 +1,4 @@
 import CloudinaryUploader from '../connector/cloudinary/index.js'
-import generateSlug from '../helpers/generateSlug.js'
 import Repository from './../repositories/user.js'
 
 export default {
@@ -7,6 +6,7 @@ export default {
     try {
       return await Repository.count()
     } catch (error) {
+      console.log(error)
       throw error
     }
   },
@@ -20,6 +20,7 @@ export default {
 
       return await Repository.find({ page: _page, limit: _limit })
     } catch (error) {
+      console.log(error)
       throw error
     }
   },
@@ -30,6 +31,7 @@ export default {
 
       return await Repository.findById(id)
     } catch (error) {
+      console.log(error)
       throw error
     }
   },
@@ -37,11 +39,6 @@ export default {
   create: async (req) => {
     try {
       let data = { ...req.body }
-
-      // generate username if not any
-      if (!data.username) {
-        data.username = generateSlug(data.firstName + '-' + data.lastName)
-      }
 
       if (req.files.avatar) {
         // upload to cloudinary
@@ -63,6 +60,7 @@ export default {
 
       return await Repository.create(data)
     } catch (error) {
+      console.log(error)
       throw error
     }
   },
@@ -71,6 +69,7 @@ export default {
     try {
       const { id } = req.params
       const data = { ...req.body }
+      console.log('req.files :>> ', req.files)
 
       if (req.files.avatar) {
         // upload to cloudinary
@@ -92,6 +91,7 @@ export default {
 
       return await Repository.update(id, data)
     } catch (error) {
+      console.log(error)
       throw error
     }
   },
@@ -102,6 +102,7 @@ export default {
 
       return await Repository.delete(id)
     } catch (error) {
+      console.log(error)
       throw error
     }
   },
@@ -112,6 +113,7 @@ export default {
 
       return await Repository.login(username, password)
     } catch (error) {
+      console.log(error)
       throw error
     }
   },
@@ -122,6 +124,7 @@ export default {
 
       return await Repository.getByToken(authorization)
     } catch (error) {
+      console.log(error)
       throw error
     }
   },

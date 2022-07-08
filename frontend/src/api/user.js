@@ -16,11 +16,17 @@ const findById = async (id) => {
 }
 
 const create = async (data) => {
-  return await apiCaller(`/api/users`, 'POST', { product: data })
+  const formData = new FormData()
+  Object.keys(data).forEach((name) => formData.append(name, data[name]))
+
+  return await apiCaller(`/api/users`, 'POST', formData)
 }
 
 const update = async (id, data) => {
-  return await apiCaller(`/api/users/${id}`, 'PUT', { product: data })
+  const formData = new FormData()
+  Object.keys(data).forEach((name) => formData.append(name, data[name]))
+
+  return await apiCaller(`/api/users/${id}`, 'PUT', formData)
 }
 
 const _delete = async (id) => {

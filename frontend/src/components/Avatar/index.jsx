@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import Portrait_Placeholder from './Portrait_Placeholder.png'
 
 Avatar.propTypes = {
   alt: PropTypes.string,
@@ -19,7 +20,7 @@ function Avatar(props) {
     <div>
       <img
         alt={alt}
-        src={src}
+        src={src || Portrait_Placeholder}
         style={{
           width: size,
           height: size,

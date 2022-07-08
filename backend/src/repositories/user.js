@@ -19,7 +19,12 @@ export default {
   find: async ({ page, limit }) => {
     try {
       const count = await Model.count()
-      const items = await Model.findAll({ limit, offset: (page - 1) * limit, include })
+      const items = await Model.findAll({
+        limit,
+        offset: (page - 1) * limit,
+        include,
+        order: [['updatedAt', 'DESC']],
+      })
 
       return {
         items,
@@ -71,11 +76,12 @@ export default {
       if (!entry) {
         throw new Error('Not found')
       }
+      // generate password encode
+      const salt = bcrypt.genSaltSync(10)
+      const passwordEncode = bcrypt.hashSync(data.password, salt)
+      data.password = passwordEncode
 
       // cannot allow update specific fields
-      delete data.email
-      delete data.username
-      delete data.password
       delete data.role
 
       await Model.update(data, {

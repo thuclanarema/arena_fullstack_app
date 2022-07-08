@@ -27,7 +27,7 @@ const initialFormData = {
     error: '',
     required: true,
     validate: {
-      type: ['string', 'Invalid type!'],
+      trim: true,
       required: [true, 'Required!'],
       minlength: [2, 'Too short!'],
       maxlength: [20, 'Too long!'],
@@ -41,7 +41,7 @@ const initialFormData = {
     error: '',
     required: true,
     validate: {
-      type: ['string', 'Invalid type!'],
+      trim: true,
       required: [true, 'Required!'],
       minlength: [2, 'Too short!'],
       maxlength: [20, 'Too long!'],
@@ -54,7 +54,7 @@ const initialFormData = {
     error: '',
     required: true,
     validate: {
-      type: ['string', 'Invalid type!'],
+      trim: true,
       required: [true, 'Required!'],
       minlength: [2, 'Too short!'],
       maxlength: [50, 'Too long!'],
@@ -67,10 +67,11 @@ const initialFormData = {
     error: '',
     required: true,
     validate: {
-      type: ['string', 'Invalid type!'],
+      trim: true,
       required: [true, 'Required!'],
       minlength: [2, 'Too short!'],
       maxlength: [50, 'Too long!'],
+      pattern: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Invalid email'],
     },
   },
   password: {
@@ -80,9 +81,8 @@ const initialFormData = {
     error: '',
     required: true,
     validate: {
-      type: ['string', 'Invalid type!'],
       required: [true, 'Required!'],
-      minlength: [2, 'Too short!'],
+      minlength: [8, 'Too short!'],
       maxlength: [50, 'Too long!'],
     },
   },
@@ -93,9 +93,8 @@ const initialFormData = {
     error: '',
     required: true,
     validate: {
-      type: ['string', 'Invalid type!'],
       required: [true, 'Required!'],
-      minlength: [2, 'Too short!'],
+      minlength: [8, 'Too short!'],
       maxlength: [50, 'Too long!'],
     },
   },
@@ -119,17 +118,17 @@ const initialFormData = {
   birthday: {
     type: 'date',
     label: 'Birthday',
-    value: null,
+    value: '',
     error: '',
     validate: {},
   },
-  country: {
+  countryId: {
     type: 'select',
     label: 'Country',
     value: '',
     error: '',
     validate: {},
-    options: [],
+    options: [{ label: 'Select a country', value: '' }],
   },
 }
 
@@ -143,33 +142,32 @@ function CreateForm(props) {
   useEffect(() => {
     let _formData = JSON.parse(JSON.stringify(initialFormData))
 
+    // /**
+    //  * test
+    //  */
+    // _formData.firstName.value = 'david'
+    // _formData.lastName.value = 'pham'
+    // _formData.username.value = `david-pham-${Date.now()}`
+    // _formData.email.value = `david-pham-${Date.now()}@gmail.com`
+    // _formData.password.value = '12345678'
+    // _formData.confirmPassword.value = '12345678'
+
     if (countries.length) {
-      _formData.country = {
-        ..._formData.country,
-        options: [
-          { label: 'Select a country', value: '' },
-          ...countries.map((item) => ({ label: item.name, value: '' + item.id })),
-        ],
-      }
+      let countryOptions = countries.map((item) => ({ label: item.name, value: '' + item.id }))
+      countryOptions.unshift({ label: 'Select a country', value: '' })
+
+      _formData.countryId = { ..._formData.countryId, options: countryOptions }
     }
 
     if (created?.id) {
-      Array.from(['firstName', 'lastName', 'username', 'email', 'password']).map(
-        (key) => (_formData[key] = { ..._formData[key], value: created[key] || '' }),
+      Array.from(['firstName', 'lastName', 'username', 'email', 'birthday', 'countryId']).map(
+        (key) => (_formData[key] = { ..._formData[key], value: String(created[key] || '') }),
       )
-
-      _formData['firstName'] = { ..._formData['firstName'], value: created['firstName'] || '' }
-      _formData['lastName'] = { ..._formData['lastName'], value: created['lastName'] || '' }
-      _formData['username'] = {
-        ..._formData['username'],
-        value: created['username'] || '',
-        disabled: true,
-      }
-      _formData['email'] = { ..._formData['email'], value: created['email'] || '', disabled: true }
-      _formData['password'] = { ..._formData['password'], disabled: true }
-      _formData['confirmPassword'] = { ..._formData['confirmPassword'], disabled: true }
-      _formData['gender'] = { ..._formData['gender'], value: created['gender'] || false }
-      _formData['country'] = { ..._formData['country'], value: '' + created['country']?.id || '' }
+      Array.from(['gender']).map(
+        (key) => (_formData[key] = { ..._formData[key], value: Boolean(created[key] || '') }),
+      )
+      // _formData['password'] = { ..._formData['password'], value: '' }
+      // _formData['confirmPassword'] = { ..._formData['confirmPassword'], value: '' }
     }
 
     setFormData(_formData)
@@ -184,22 +182,23 @@ function CreateForm(props) {
   const handleSubmit = () => {
     try {
       const { valid, data } = FormValidate.validateForm(formData)
+
       if (valid) {
-        // check password match password confirm
+        // validate password and confirmPassword matched
         if (formData['password'].value !== formData['confirmPassword'].value) {
           let _formData = JSON.parse(JSON.stringify(formData))
           _formData['password'].error = 'Password and Confirm password do not match!'
           _formData['confirmPassword'].error = 'Password and Confirm password do not match!'
           setFormData(_formData)
 
-          throw { message: 'Invalid form data' }
+          throw new Error('Invalid form data')
         }
 
         onSubmit(data)
       } else {
         setFormData(data)
 
-        throw { message: 'Invalid form data' }
+        throw new Error('Invalid form data')
       }
     } catch (error) {
       console.log(error)
@@ -284,8 +283,8 @@ function CreateForm(props) {
               <Stack>
                 <Stack.Item fill>
                   <FormControl
-                    {...formData['country']}
-                    onChange={(value) => handleChange('country', value)}
+                    {...formData['countryId']}
+                    onChange={(value) => handleChange('countryId', value)}
                   />
                 </Stack.Item>
                 <Stack.Item fill></Stack.Item>

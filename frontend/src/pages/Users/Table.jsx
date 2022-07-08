@@ -11,6 +11,7 @@ function Table(props) {
   let rows = []
   if (users.items.length) {
     rows = users.items.map((item, index) => [
+      index + 1,
       <Stack spacing="tight" wrap={false}>
         <Stack.Item>
           <Avatar alt={item.fullName} src={item.avatar} size="3em" />
@@ -25,7 +26,6 @@ function Table(props) {
         </Stack.Item>
       </Stack>,
       item.email,
-      item.phone,
       item.gender ? 'Male' : 'Female',
       item.country?.name,
       <Popover
@@ -71,7 +71,7 @@ function Table(props) {
   return (
     <DataTable
       columnContentTypes={['text', 'text', 'text', 'text', 'text', , 'text']}
-      headings={['User', 'Email', 'Phone', 'Gender', 'Country', 'Action']}
+      headings={['No.', 'User', 'Email', 'Gender', 'Country', 'Action']}
       rows={rows}
     />
   )
