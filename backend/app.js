@@ -1,7 +1,5 @@
 import 'dotenv/config'
 
-console.log('process.env.POSTGRES_USER :>> ', process.env.POSTGRES_USER)
-
 import createError from 'http-errors'
 import express from 'express'
 import path from 'path'
@@ -18,6 +16,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const PORT = process.env.PORT || 5000
+const NODE_ENV = process.env.NODE_ENV || 'development'
 
 const app = express()
 
@@ -31,14 +30,21 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')))
+
+app.use(
+  NODE_ENV === 'development'
+    ? express.static(path.join(__dirname, 'public'))
+    : express.static(path.join(__dirname, '..', 'frontend', 'build')),
+)
 
 // app.use('/', indexRouter)
 app.use('/api/users', userRouter)
 app.use('/api/countries', countryRouter)
 
 app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'))
+  NODE_ENV === 'development'
+    ? res.render('index', { title: 'Express' })
+    : res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'))
 })
 
 // catch 404 and forward to error handler
@@ -58,7 +64,7 @@ app.use(function (err, req, res, next) {
 })
 
 app.listen(PORT, () => {
-  console.log(`NodeJs app listening on port ${PORT}`)
+  console.log(`[NodeJS] app listening on port ${PORT}`)
 })
 
 export default app
