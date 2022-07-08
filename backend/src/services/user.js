@@ -31,7 +31,6 @@ export default {
 
       return await Repository.findById(id)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -45,6 +44,8 @@ export default {
         let file = await CloudinaryUploader.upload(req.files.avatar[0])
 
         data.avatar = file.secure_url
+      } else {
+        data.avatar = ''
       }
 
       if (req.files.photos) {
@@ -56,6 +57,8 @@ export default {
         }
 
         data.photos = files.map((item) => item.secure_url)
+      } else {
+        data.photos = []
       }
 
       return await Repository.create(data)
@@ -69,7 +72,6 @@ export default {
     try {
       const { id } = req.params
       const data = { ...req.body }
-      console.log('req.files :>> ', req.files)
 
       if (req.files.avatar) {
         // upload to cloudinary

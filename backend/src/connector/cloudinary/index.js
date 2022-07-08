@@ -14,6 +14,7 @@ cloudinary.config({
 
 const CloudinaryUploader = {
   upload: async (file) => {
+    console.log(`🚀 ~ cloudinary uploading..`)
     return await cloudinary.v2.uploader
       .upload(file.path, {
         folder: CLOUDINARY_FOLDER,

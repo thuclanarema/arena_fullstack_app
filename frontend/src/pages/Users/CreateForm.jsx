@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import AppHeader from '../../components/AppHeader'
 import FormControl from '../../components/FormControl'
 import FormValidate from '../../helpers/formValidate'
+import MyDropZone from '../../components/MyDropZoneSingle'
 
 CreateForm.propTypes = {
   created: PropTypes.object,
@@ -130,6 +131,22 @@ const initialFormData = {
     validate: {},
     options: [{ label: 'Select a country', value: '' }],
   },
+  avatar: {
+    type: 'file',
+    label: 'Avatar',
+    value: null,
+    error: '',
+    validate: {},
+    allowMultiple: false,
+  },
+  photos: {
+    type: 'file',
+    label: 'Photos',
+    value: [],
+    error: '',
+    validate: {},
+    allowMultiple: true,
+  },
 }
 
 function CreateForm(props) {
@@ -137,20 +154,18 @@ function CreateForm(props) {
 
   const [formData, setFormData] = useState(initialFormData)
 
-  useEffect(() => console.log('formData :>> ', formData), [formData])
-
   useEffect(() => {
     let _formData = JSON.parse(JSON.stringify(initialFormData))
 
-    // /**
-    //  * test
-    //  */
-    // _formData.firstName.value = 'david'
-    // _formData.lastName.value = 'pham'
-    // _formData.username.value = `david-pham-${Date.now()}`
-    // _formData.email.value = `david-pham-${Date.now()}@gmail.com`
-    // _formData.password.value = '12345678'
-    // _formData.confirmPassword.value = '12345678'
+    /**
+     * test
+     */
+    _formData.firstName.value = 'david'
+    _formData.lastName.value = 'pham'
+    _formData.username.value = `david-pham-${Date.now()}`
+    _formData.email.value = `david-pham-${Date.now()}@gmail.com`
+    _formData.password.value = '12345678'
+    _formData.confirmPassword.value = '12345678'
 
     if (countries.length) {
       let countryOptions = countries.map((item) => ({ label: item.name, value: '' + item.id }))
@@ -159,15 +174,16 @@ function CreateForm(props) {
       _formData.countryId = { ..._formData.countryId, options: countryOptions }
     }
 
-    if (created?.id) {
+    if (created.id) {
       Array.from(['firstName', 'lastName', 'username', 'email', 'birthday', 'countryId']).map(
         (key) => (_formData[key] = { ..._formData[key], value: String(created[key] || '') }),
       )
       Array.from(['gender']).map(
         (key) => (_formData[key] = { ..._formData[key], value: Boolean(created[key] || '') }),
       )
-      // _formData['password'] = { ..._formData['password'], value: '' }
-      // _formData['confirmPassword'] = { ..._formData['confirmPassword'], value: '' }
+
+      delete _formData.password
+      delete _formData.confirmPassword
     }
 
     setFormData(_formData)
@@ -185,7 +201,7 @@ function CreateForm(props) {
 
       if (valid) {
         // validate password and confirmPassword matched
-        if (formData['password'].value !== formData['confirmPassword'].value) {
+        if (formData['password']?.value !== formData['confirmPassword']?.value) {
           let _formData = JSON.parse(JSON.stringify(formData))
           _formData['password'].error = 'Password and Confirm password do not match!'
           _formData['confirmPassword'].error = 'Password and Confirm password do not match!'
@@ -193,6 +209,9 @@ function CreateForm(props) {
 
           throw new Error('Invalid form data')
         }
+
+        data['avatar'].value = formData['avatar'].value
+        data['photos'].value = formData['photos'].value
 
         onSubmit(data)
       } else {
@@ -209,7 +228,7 @@ function CreateForm(props) {
   return (
     <Stack vertical alignment="fill">
       <Stack.Item>
-        <AppHeader title={created?.id ? 'Edit user' : 'Add user'} onBack={onDiscard} />
+        <AppHeader title={created.id ? 'Edit user' : 'Add user'} onBack={onDiscard} />
       </Stack.Item>
 
       <Stack.Item>
@@ -263,22 +282,24 @@ function CreateForm(props) {
                 </Stack.Item>
               </Stack>
             </Stack.Item>
-            <Stack.Item>
-              <Stack>
-                <Stack.Item fill>
-                  <FormControl
-                    {...formData['password']}
-                    onChange={(value) => handleChange('password', value)}
-                  />
-                </Stack.Item>
-                <Stack.Item fill>
-                  <FormControl
-                    {...formData['confirmPassword']}
-                    onChange={(value) => handleChange('confirmPassword', value)}
-                  />
-                </Stack.Item>
-              </Stack>
-            </Stack.Item>
+            {!created.id && (
+              <Stack.Item>
+                <Stack>
+                  <Stack.Item fill>
+                    <FormControl
+                      {...formData['password']}
+                      onChange={(value) => handleChange('password', value)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item fill>
+                    <FormControl
+                      {...formData['confirmPassword']}
+                      onChange={(value) => handleChange('confirmPassword', value)}
+                    />
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
+            )}
             <Stack.Item>
               <Stack>
                 <Stack.Item fill>
@@ -290,6 +311,22 @@ function CreateForm(props) {
                 <Stack.Item fill></Stack.Item>
               </Stack>
             </Stack.Item>
+            <Stack.Item>
+              <Stack>
+                <Stack.Item fill>
+                  <FormControl
+                    {...formData['avatar']}
+                    onChange={(value) => handleChange('avatar', value)}
+                  />
+                </Stack.Item>
+                <Stack.Item fill>
+                  <FormControl
+                    {...formData['photos']}
+                    onChange={(value) => handleChange('photos', value)}
+                  />
+                </Stack.Item>
+              </Stack>
+            </Stack.Item>
           </Stack>
         </Card>
       </Stack.Item>
@@ -298,7 +335,7 @@ function CreateForm(props) {
         <Stack distribution="trailing">
           <Button onClick={onDiscard}>Discard</Button>
           <Button primary onClick={handleSubmit}>
-            {created?.id ? 'Save' : 'Add'}
+            {created.id ? 'Save' : 'Add'}
           </Button>
         </Stack>
       </Stack.Item>

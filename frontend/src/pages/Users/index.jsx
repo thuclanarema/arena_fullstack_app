@@ -15,11 +15,10 @@ function UsersPage(props) {
   const [isReady, setIsReady] = useState(false)
   const [users, setUsers] = useState(null)
   const [countries, setCountries] = useState(null)
-  const [created, setCreated] = useState(null)
+  const [created, setCreated] = useState({})
   const [deleted, setDeleted] = useState(null)
 
   useEffect(() => console.log('created :>> ', created), [created])
-  useEffect(() => console.log('deleted :>> ', deleted), [deleted])
 
   const getUsers = async ({ page, limit }) => {
     try {
@@ -76,7 +75,6 @@ function UsersPage(props) {
       Object.keys(formData)
         .filter((key) => !['confirmPassword'].includes(key))
         .forEach((key) => (formData[key].value ? (data[key] = formData[key].value) : null))
-      console.log('data :>> ', data)
 
       let res = null
       if (created?.id) {
@@ -89,8 +87,6 @@ function UsersPage(props) {
       if (!res.success) {
         throw res.error
       }
-
-      console.log('res.data :>> ', res.data)
 
       actions.showNotify({ message: created?.id ? 'Saved' : 'Added' })
 

@@ -17,14 +17,26 @@ const findById = async (id) => {
 
 const create = async (data) => {
   const formData = new FormData()
-  Object.keys(data).forEach((name) => formData.append(name, data[name]))
+  Object.keys(data)
+    .filter((name) => !['photos'].includes(name))
+    .forEach((name) => formData.append(name, data[name]))
 
-  return await apiCaller(`/api/users`, 'POST', formData)
+  if (data.photos?.length) {
+    data.photos.forEach((item) => formData.append('photos', item))
+  }
+
+  return await apiCaller(`/api/users`, 'POST', formData, { 'Content-Type': 'multipart/form-data' })
 }
 
 const update = async (id, data) => {
   const formData = new FormData()
-  Object.keys(data).forEach((name) => formData.append(name, data[name]))
+  Object.keys(data)
+    .filter((name) => !['photos'].includes(name))
+    .forEach((name) => formData.append(name, data[name]))
+
+  if (data.photos?.length) {
+    data.photos.forEach((item) => formData.append('photos', item))
+  }
 
   return await apiCaller(`/api/users/${id}`, 'PUT', formData)
 }

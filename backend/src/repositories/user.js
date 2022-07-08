@@ -76,10 +76,6 @@ export default {
       if (!entry) {
         throw new Error('Not found')
       }
-      // generate password encode
-      const salt = bcrypt.genSaltSync(10)
-      const passwordEncode = bcrypt.hashSync(data.password, salt)
-      data.password = passwordEncode
 
       // cannot allow update specific fields
       delete data.role

@@ -36,7 +36,7 @@ const init = async () => {
       for (let j = 0; j < data.length; j++) {
         switch (name) {
           case 'users':
-            let countries = await CountryRepository.find({})
+            let countries = await CountryRepository.find({ page: 1, limit: 100 })
             if (countries.length) {
               data[j].countryId = countries[Math.floor(Math.random() * countries.length)].id
             }

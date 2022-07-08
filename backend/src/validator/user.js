@@ -12,7 +12,7 @@ const schema = {
   gender: Joi.any(),
   birthday: Joi.any(),
   avatar: Joi.any(),
-  photo: Joi.any(),
+  photos: Joi.any(),
   countryId: Joi.any(),
 }
 
@@ -26,7 +26,7 @@ Array.from([
   'gender',
   'birthday',
   'avatar',
-  'photo',
+  'photos',
   'countryId',
 ]).forEach((key) => (createSchema[key] = schema[key]))
 createSchema = Joi.object(createSchema)
@@ -37,11 +37,10 @@ Array.from([
   'lastName',
   'email',
   'username',
-  'password',
   'gender',
   'birthday',
   'avatar',
-  'photo',
+  'photos',
   'countryId',
 ]).forEach((key) => (updateSchema[key] = schema[key]))
 updateSchema = Joi.object(updateSchema)

@@ -5,6 +5,7 @@ export default {
     try {
       return await Repository.count()
     } catch (error) {
+      console.log(error)
       throw error
     }
   },
@@ -18,6 +19,7 @@ export default {
 
       return await Repository.find({ page: _page, limit: _limit })
     } catch (error) {
+      console.log(error)
       throw error
     }
   },
@@ -28,6 +30,7 @@ export default {
 
       return await Repository.findById(id)
     } catch (error) {
+      console.log(error)
       throw error
     }
   },
@@ -38,6 +41,7 @@ export default {
 
       return await Repository.create(data)
     } catch (error) {
+      console.log(error)
       throw error
     }
   },
@@ -49,6 +53,7 @@ export default {
 
       return await Repository.update(id, data)
     } catch (error) {
+      console.log(error)
       throw error
     }
   },
@@ -59,6 +64,7 @@ export default {
 
       return await Repository.delete(id)
     } catch (error) {
+      console.log(error)
       throw error
     }
   },

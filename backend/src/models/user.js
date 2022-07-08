@@ -45,9 +45,11 @@ const Model = PostgresSequelize.define('users', {
   },
   avatar: {
     type: DataTypes.STRING,
+    defaultValue: '',
   },
   photos: {
     type: DataTypes.ARRAY(DataTypes.STRING),
+    defaultValue: [],
   },
   fullName: {
     type: DataTypes.VIRTUAL,

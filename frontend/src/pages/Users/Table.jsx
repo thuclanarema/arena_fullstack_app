@@ -1,7 +1,16 @@
-import { ActionList, Button, Checkbox, DataTable, Popover, Stack } from '@shopify/polaris'
+import {
+  ActionList,
+  Button,
+  Checkbox,
+  DataTable,
+  Popover,
+  Stack,
+  Thumbnail,
+} from '@shopify/polaris'
 import { MobileVerticalDotsMajor } from '@shopify/polaris-icons'
 import { useState } from 'react'
 import Avatar from '../../components/Avatar/index.jsx'
+import formatDateTime from '../../helpers/formatDateTime.js'
 
 function Table(props) {
   const { users, onEdit, onDelete } = props
@@ -12,22 +21,39 @@ function Table(props) {
   if (users.items.length) {
     rows = users.items.map((item, index) => [
       index + 1,
-      <Stack spacing="tight" wrap={false}>
+      <Stack vertical spacing="extraTight">
         <Stack.Item>
-          <Avatar alt={item.fullName} src={item.avatar} size="3em" />
+          <Stack spacing="tight" wrap={false}>
+            <Stack.Item>
+              <Avatar alt={item.fullName} src={item.avatar} size="3em" />
+            </Stack.Item>
+            <Stack.Item>
+              <p>
+                <b>{item.fullName}</b>
+              </p>
+              <p>
+                <i>{item.username}</i>
+              </p>
+            </Stack.Item>
+          </Stack>
         </Stack.Item>
         <Stack.Item>
-          <p>
-            <b>{item.fullName}</b>
-          </p>
-          <p>
-            <i>{item.username}</i>
-          </p>
+          <Stack spacing="extraTight">
+            {item.photos?.length > 0 &&
+              item.photos.map((_item, _index) => (
+                <Stack.Item key={_index}>
+                  <Thumbnail alt="" source={_item} size="small" />
+                </Stack.Item>
+              ))}
+          </Stack>
         </Stack.Item>
       </Stack>,
-      item.email,
-      item.gender ? 'Male' : 'Female',
-      item.country?.name,
+      <Stack vertical spacing="extraTight">
+        <Stack.Item>Email: {item.email}</Stack.Item>
+        <Stack.Item>Country: {item.country?.name}</Stack.Item>
+        <Stack.Item>Gender: {item.gender ? 'Male' : 'Female'}</Stack.Item>
+        <Stack.Item>Birthday: {formatDateTime(item.birthday, 'LL')}</Stack.Item>
+      </Stack>,
       <Popover
         active={item.id === selected?.id}
         activator={
@@ -70,8 +96,8 @@ function Table(props) {
 
   return (
     <DataTable
-      columnContentTypes={['text', 'text', 'text', 'text', 'text', , 'text']}
-      headings={['No.', 'User', 'Email', 'Gender', 'Country', 'Action']}
+      columnContentTypes={['text', 'text', 'text', , 'text']}
+      headings={['No.', 'User', 'Advanced', 'Action']}
       rows={rows}
     />
   )

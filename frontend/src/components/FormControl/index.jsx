@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types'
 import { RadioButton, Select, Stack, TextField } from '@shopify/polaris'
+import MyDropZoneMultiple from '../MyDropZoneMultiple'
+import MyDropZoneSingle from '../MyDropZoneSingle'
 
 FormControl.propTypes = {
-  type: PropTypes.oneOf(['text', 'password', 'date', 'radio', 'select']),
+  type: PropTypes.oneOf(['text', 'password', 'date', 'radio', 'select', 'file']),
   label: PropTypes.string,
   value: PropTypes.any,
   error: PropTypes.any,
@@ -13,6 +15,7 @@ FormControl.propTypes = {
   autoFocus: PropTypes.bool,
   options: PropTypes.array,
   required: PropTypes.bool,
+  allowMultiple: PropTypes.bool,
 }
 
 FormControl.defaultProps = {
@@ -27,6 +30,7 @@ FormControl.defaultProps = {
   autoFocus: false,
   options: [],
   required: false,
+  allowMultiple: false,
 }
 
 function FormControl(props) {
@@ -42,6 +46,7 @@ function FormControl(props) {
     autoFocus,
     options,
     required,
+    allowMultiple,
   } = props
 
   let _label = required ? (
@@ -54,6 +59,21 @@ function FormControl(props) {
   )
 
   switch (type) {
+    case 'file':
+      return (
+        <Stack vertical spacing="extraTight">
+          <Stack.Item>{_label}</Stack.Item>
+          <Stack.Item>
+            {allowMultiple ? (
+              <MyDropZoneMultiple files={value} onChange={onChange} />
+            ) : (
+              <MyDropZoneSingle file={value} onChange={onChange} />
+            )}
+          </Stack.Item>
+        </Stack>
+      )
+      break
+
     case 'select':
       return (
         <Select label={_label} options={options} onChange={onChange} value={value} error={error} />
