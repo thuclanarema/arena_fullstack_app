@@ -15,10 +15,8 @@ function UsersPage(props) {
   const [isReady, setIsReady] = useState(false)
   const [users, setUsers] = useState(null)
   const [countries, setCountries] = useState(null)
-  const [created, setCreated] = useState({})
+  const [created, setCreated] = useState(null)
   const [deleted, setDeleted] = useState(null)
-
-  useEffect(() => console.log('created :>> ', created), [created])
 
   const getUsers = async ({ page, limit }) => {
     try {
