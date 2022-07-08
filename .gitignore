@@ -1,0 +1,10 @@
+**/node_modules
+**/build
+**/temp
+
+**/*.env
+
+**/yarn.lock
+**/package-lock.json
+
+**/*.DS_Store
