@@ -72,6 +72,9 @@ server.on('listening', () => {
 
 
 
+console.log('abc');
+
+
 
 
 export default app
