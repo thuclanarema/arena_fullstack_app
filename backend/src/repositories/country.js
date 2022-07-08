@@ -9,9 +9,18 @@ export default {
     }
   },
 
-  find: async (filter) => {
+  find: async ({ page, limit }) => {
     try {
-      return await Model.findAll(filter)
+      const count = await Model.count()
+      const items = await Model.findAll({ limit, offset: (page - 1) * limit })
+
+      return {
+        items,
+        page,
+        limit,
+        totalPages: Math.ceil(count / limit),
+        totalItems: count,
+      }
     } catch (error) {
       throw error
     }

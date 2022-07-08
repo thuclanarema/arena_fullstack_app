@@ -49,6 +49,15 @@ const Model = PostgresSequelize.define('users', {
   photos: {
     type: DataTypes.ARRAY(DataTypes.STRING),
   },
+  fullName: {
+    type: DataTypes.VIRTUAL,
+    get() {
+      return `${this.firstName} ${this.lastName}`
+    },
+    set(value) {
+      throw new Error('Do not try to set the `fullName` value!')
+    },
+  },
 })
 
 Model.prototype.toJSON = function () {

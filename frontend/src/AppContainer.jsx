@@ -2,6 +2,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { selectNotify, hideNotify, showNotify } from './redux/reducers/notify.js'
 import { selectAppLoading, hideAppLoading, showAppLoading } from './redux/reducers/appLoading.js'
 import App from './App'
+import LoadingPage from './components/LoadingPage/index.jsx'
+import { Toast } from '@shopify/polaris'
 
 function AppContainer(props) {
   const dispatch = useDispatch()
@@ -24,7 +26,28 @@ function AppContainer(props) {
     actions: reduxActions,
   }
 
-  return <App {...appProps} />
+  const toastMarkup = notify?.show && (
+    <Toast
+      error={notify.error}
+      content={notify.message}
+      onDismiss={() => {
+        if (notify.onDismiss) {
+          notify.onDismiss()
+        }
+        dispatch(hideNotify())
+      }}
+    />
+  )
+
+  return (
+    <div>
+      <App {...appProps} />
+
+      {appLoading?.loading && <LoadingPage />}
+
+      {toastMarkup}
+    </div>
+  )
 }
 
 export default AppContainer

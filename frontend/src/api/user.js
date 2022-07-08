@@ -4,8 +4,11 @@ const getCount = async () => {
   return await apiCaller(`/api/users/count`)
 }
 
-const find = async () => {
-  return await apiCaller(`/api/users`)
+const find = async ({ page, limit }) => {
+  let _page = page ? `&page=${page}` : ``
+  let _limit = limit ? `&limit=${limit}` : ``
+
+  return await apiCaller(`/api/users?${_page}${_limit}`)
 }
 
 const findById = async (id) => {

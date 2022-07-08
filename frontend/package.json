@@ -3,6 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "format": "npm-run-all -p format:*",
+    "format:code": "npm run prettier:code -- --write",
+    "format:other": "npm run prettier:other -- --write",
+    "prettier:code": "prettier \"**/*.js\"",
+    "prettier:other": "prettier \"**/*.{md,css,scss,yaml,yml,json,prettierrc}\""
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
     "@shopify/polaris": "^9.19.0",
@@ -11,18 +22,14 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

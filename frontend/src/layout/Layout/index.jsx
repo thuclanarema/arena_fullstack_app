@@ -8,7 +8,7 @@ function Layout(props) {
   const location = useLocation()
 
   return (
-    <Stack>
+    <Stack wrap={false}>
       <Stack.Item>
         <Navigation location={location.pathname}>
           <Navigation.Section
