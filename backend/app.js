@@ -22,8 +22,8 @@ const PORT = process.env.PORT || 5000
 
 // view engine setup
 app.set('port', PORT)
-// app.set('views', path.join(__dirname, 'src/views'))
-// app.set('view engine', 'pug')
+app.set('views', path.join(__dirname, 'src/views'))
+app.set('view engine', 'pug')
 
 app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')))
 
@@ -32,9 +32,9 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-// app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')))
 
-// app.use('/', indexRouter)
+app.use('/', indexRouter)
 app.use('/api/users', userRouter)
 app.use('/api/countries', countryRouter)
 
@@ -52,15 +52,6 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500)
   res.render('error')
-})
-
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'))
-})
-
-app.get('/users', function (req, res) {
-  console.log('/users')
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'))
 })
 
 /**
