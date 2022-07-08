@@ -7,7 +7,8 @@
     "format:code": "npm run prettier:code -- --write",
     "format:other": "npm run prettier:other -- --write",
     "prettier:code": "prettier \"**/*.{js,jsx}\"",
-    "prettier:other": "prettier \"**/*.{md,css,scss,yaml,yml,json,prettierrc}\""
+    "prettier:other": "prettier \"**/*.{md,css,scss,yaml,yml,json,prettierrc}\"",
+    "deploy": "pm2 kill && cd frontend/ && yarn build && cd ../ && pm2 start ecosystem.config.js --env production"
   },
   "dependencies": {
     "dotenv": "^16.0.1",
