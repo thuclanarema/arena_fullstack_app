@@ -4,15 +4,42 @@ import HomePage from './pages/Home'
 import UsersPage from './pages/Users'
 import ProductsPage from './pages/Products'
 import { Page } from '@shopify/polaris'
+import routes from './routes.js'
 
 function App(props) {
+  const renderElement = (path) => {
+    switch (path) {
+      case '/':
+        return <HomePage {...props} />
+        break
+
+      case '/users':
+        return <UsersPage {...props} />
+        break
+
+      case '/products':
+        return <ProductsPage {...props} />
+        break
+
+      default:
+        return undefined
+        break
+    }
+  }
+
+  let items = routes.map((item) => ({
+    path: item.path,
+    exact: item.exact,
+    element: renderElement(item.path),
+  }))
+
   return (
     <Layout {...props}>
       <Page>
         <Routes>
-          <Route path="/" element={<HomePage {...props} />} />
-          <Route path="/users" element={<UsersPage {...props} />} />
-          <Route path="/products" element={<ProductsPage {...props} />} />
+          {items.map((item, index) => (
+            <Route key={index} path={item.path} element={item.element} />
+          ))}
         </Routes>
       </Page>
     </Layout>
