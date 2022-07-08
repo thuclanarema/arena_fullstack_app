@@ -1,8 +1,0 @@
-{
-  "name": "frontend",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "start": "cd ../../frontend/ && npm run build && npm run serve"
-  }
-}
