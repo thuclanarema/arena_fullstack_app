@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "serve": "node app.js",
     "start": "nodemon app.js",
+    "serve": "node app.js",
     "mockup": "node src/mockup/index.js"
   },
   "dependencies": {

@@ -19,7 +19,8 @@ module.exports = {
   apps: [
     {
       name: 'arena-fullstack-app',
-      script: 'backend/app.js',
+      script: 'npm',
+      args: 'run serve',
       env_development: {
         NODE_ENV: 'development',
       },
