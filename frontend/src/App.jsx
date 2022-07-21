@@ -4,41 +4,55 @@ import HomePage from './pages/Home'
 import UsersPage from './pages/Users'
 import ProductsPage from './pages/Products'
 import { Page } from '@shopify/polaris'
-import routes from './routes.js'
+import CustomersPage from './pages/Customers'
+import CountriesPage from './pages/Countries'
+import { HomeMinor, CustomersMinor, ProductsMinor, LocationsMinor } from '@shopify/polaris-icons'
+
+export const routes = [
+  {
+    path: '/',
+    title: 'Home',
+    exact: false,
+    component: HomePage,
+    icon: HomeMinor,
+  },
+  {
+    path: '/countries',
+    title: 'Countries',
+    exact: false,
+    component: CountriesPage,
+    icon: LocationsMinor,
+  },
+  {
+    path: '/customers',
+    title: 'Customers',
+    exact: false,
+    component: CustomersPage,
+    icon: CustomersMinor,
+  },
+  {
+    path: '/users',
+    title: 'Users',
+    exact: false,
+    component: UsersPage,
+    icon: CustomersMinor,
+  },
+  {
+    path: '/products',
+    title: 'Products',
+    exact: false,
+    component: ProductsPage,
+    icon: ProductsMinor,
+  },
+]
 
 function App(props) {
-  const renderElement = (path) => {
-    switch (path) {
-      case '/':
-        return <HomePage {...props} />
-        break
-
-      case '/users':
-        return <UsersPage {...props} />
-        break
-
-      case '/products':
-        return <ProductsPage {...props} />
-        break
-
-      default:
-        return undefined
-        break
-    }
-  }
-
-  let items = routes.map((item) => ({
-    path: item.path,
-    exact: item.exact,
-    element: renderElement(item.path),
-  }))
-
   return (
-    <Layout {...props}>
+    <Layout {...props} routes={routes}>
       <Page>
         <Routes>
-          {items.map((item, index) => (
-            <Route key={index} path={item.path} element={item.element} />
+          {routes.map((item, index) => (
+            <Route key={index} path={item.path} element={<item.component {...props} />} />
           ))}
         </Routes>
       </Page>

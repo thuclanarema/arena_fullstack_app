@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Button, Card, Stack, TextField } from '@shopify/polaris'
+import { Button, Card, Stack } from '@shopify/polaris'
 import { useEffect, useState } from 'react'
 import AppHeader from '../../components/AppHeader'
 import FormControl from '../../components/FormControl'
@@ -48,19 +48,6 @@ const initialFormData = {
       maxlength: [20, 'Too long!'],
     },
   },
-  username: {
-    type: 'text',
-    label: 'Username',
-    value: '',
-    error: '',
-    required: true,
-    validate: {
-      trim: true,
-      required: [true, 'Required!'],
-      minlength: [2, 'Too short!'],
-      maxlength: [50, 'Too long!'],
-    },
-  },
   email: {
     type: 'text',
     label: 'Email',
@@ -75,29 +62,12 @@ const initialFormData = {
       pattern: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Invalid email'],
     },
   },
-  password: {
-    type: 'password',
-    label: 'Password',
+  phone: {
+    type: 'text',
+    label: 'Phone',
     value: '',
     error: '',
-    required: true,
-    validate: {
-      required: [true, 'Required!'],
-      minlength: [8, 'Too short!'],
-      maxlength: [50, 'Too long!'],
-    },
-  },
-  confirmPassword: {
-    type: 'password',
-    label: 'Confirm password',
-    value: '',
-    error: '',
-    required: true,
-    validate: {
-      required: [true, 'Required!'],
-      minlength: [8, 'Too short!'],
-      maxlength: [50, 'Too long!'],
-    },
+    validate: {},
   },
   gender: {
     type: 'radio',
@@ -156,6 +126,8 @@ function CreateForm(props) {
 
   const [formData, setFormData] = useState(initialFormData)
 
+  useEffect(() => console.log('formData :>> ', formData), [formData])
+
   useEffect(() => {
     let _formData = JSON.parse(JSON.stringify(initialFormData))
     _formData.countryId = {
@@ -171,16 +143,14 @@ function CreateForm(props) {
      */
     _formData.firstName.value = 'david'
     _formData.lastName.value = 'pham'
-    _formData.username.value = `david-pham-${Date.now()}`
     _formData.email.value = `david-pham-${Date.now()}@gmail.com`
-    _formData.password.value = '12345678'
-    _formData.confirmPassword.value = '12345678'
     _formData.gender.value = Boolean(Math.random() > 0.4)
+    _formData.phone.value = '09797797979'
     _formData.birthday.value = '2000-01-19'
     _formData.countryId.value = String(countries[Math.floor(Math.random() * countries.length)].id)
 
     if (created.id) {
-      Array.from(['firstName', 'lastName', 'username', 'email', 'birthday', 'countryId']).map(
+      Array.from(['firstName', 'lastName', 'email', 'phone', 'birthday', 'countryId']).map(
         (key) => (_formData[key] = { ..._formData[key], value: String(created[key] || '') }),
       )
       Array.from(['gender']).map(
@@ -192,9 +162,6 @@ function CreateForm(props) {
       Array.from(['photos']).map(
         (key) => (_formData[key] = { ..._formData[key], originValue: created[key] || [] }),
       )
-
-      delete _formData.password
-      delete _formData.confirmPassword
     }
 
     setFormData(_formData)
@@ -212,16 +179,6 @@ function CreateForm(props) {
       const { valid, data } = FormValidate.validateForm(formData)
 
       if (valid) {
-        // validate password and confirmPassword matched
-        if (formData['password']?.value !== formData['confirmPassword']?.value) {
-          let _formData = JSON.parse(JSON.stringify(formData))
-          _formData['password'].error = 'Password and Confirm password do not match!'
-          _formData['confirmPassword'].error = 'Password and Confirm password do not match!'
-          setFormData(_formData)
-
-          throw new Error('Invalid form data')
-        }
-
         data['avatar'].value = formData['avatar'].value
         data['photos'].value = formData['photos'].value
 
@@ -239,7 +196,7 @@ function CreateForm(props) {
 
   return (
     <Stack vertical alignment="fill">
-      <AppHeader title={created.id ? 'Edit user' : 'Add user'} onBack={onDiscard} />
+      <AppHeader title={created.id ? 'Edit customer' : 'Add customer'} onBack={onDiscard} />
 
       <Card sectioned>
         <Stack vertical alignment="fill">
@@ -260,14 +217,14 @@ function CreateForm(props) {
           <Stack>
             <Stack.Item fill>
               <FormControl
-                {...formData['username']}
-                onChange={(value) => handleChange('username', value)}
+                {...formData['email']}
+                onChange={(value) => handleChange('email', value)}
               />
             </Stack.Item>
             <Stack.Item fill>
               <FormControl
-                {...formData['email']}
-                onChange={(value) => handleChange('email', value)}
+                {...formData['phone']}
+                onChange={(value) => handleChange('phone', value)}
               />
             </Stack.Item>
           </Stack>
@@ -285,22 +242,6 @@ function CreateForm(props) {
               />
             </Stack.Item>
           </Stack>
-          {!created.id && (
-            <Stack>
-              <Stack.Item fill>
-                <FormControl
-                  {...formData['password']}
-                  onChange={(value) => handleChange('password', value)}
-                />
-              </Stack.Item>
-              <Stack.Item fill>
-                <FormControl
-                  {...formData['confirmPassword']}
-                  onChange={(value) => handleChange('confirmPassword', value)}
-                />
-              </Stack.Item>
-            </Stack>
-          )}
           <Stack>
             <Stack.Item fill>
               <FormControl

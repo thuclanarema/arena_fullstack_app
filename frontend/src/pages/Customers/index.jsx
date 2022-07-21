@@ -1,19 +1,19 @@
-import { Button, Card, Stack } from '@shopify/polaris'
+import { Card, Stack } from '@shopify/polaris'
 import { useState, useEffect } from 'react'
-import { useLocation, useSearchParams } from 'react-router-dom'
 import CountryApi from '../../api/country'
+import CustomerApi from '../../api/customer'
 import UploadApi from '../../api/upload'
-import UserApi from '../../api/user'
 import AppHeader from '../../components/AppHeader/index.jsx'
 import MyPagination from '../../components/MyPagination'
 import PagePreloader from '../../components/PagePreloader'
 import ConfirmDelete from './ConfirmDelete'
 import CreateForm from './CreateForm'
 import Table from './Table.jsx'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import qs from 'query-string'
 import Filter from './Filter'
 
-function UsersPage(props) {
+function CustomersPage(props) {
   const { actions } = props
 
   const location = useLocation()
@@ -21,13 +21,13 @@ function UsersPage(props) {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const [isReady, setIsReady] = useState(false)
-  const [users, setUsers] = useState(null)
+  const [customers, setCustomers] = useState(null)
   const [countries, setCountries] = useState(null)
   const [created, setCreated] = useState(null)
   const [deleted, setDeleted] = useState(null)
 
   useEffect(() => {
-    if (!isReady && users && countries) {
+    if (!isReady && customers && countries) {
       setIsReady(true)
     }
   })
@@ -54,16 +54,16 @@ function UsersPage(props) {
     getCountries('?page=1&limit=1000')
   }, [])
 
-  const getUsers = async (query) => {
+  const getCustomers = async (query) => {
     try {
       actions.showAppLoading()
 
-      let res = await UserApi.find(query)
+      let res = await CustomerApi.find(query)
       if (!res.success) {
         throw res.error
       }
 
-      setUsers(res.data)
+      setCustomers(res.data)
     } catch (error) {
       console.log(error)
       actions.showNotify({ error: true, message: error.message })
@@ -75,7 +75,7 @@ function UsersPage(props) {
   useEffect(() => {
     console.log('useEffect location')
     console.log(qs.parse(location.search))
-    getUsers(location.search)
+    getCustomers(location.search)
   }, [location])
 
   const handleFilter = (filter) => {
@@ -146,7 +146,7 @@ function UsersPage(props) {
 
       let data = {}
       Object.keys(formData)
-        .filter((key) => !['confirmPassword', 'photos'].includes(key))
+        .filter((key) => !['photos'].includes(key))
         .forEach((key) => (formData[key].value ? (data[key] = formData[key].value) : null))
       if (formData['photos'].value.length) {
         data['photos'] = formData['photos'].value
@@ -155,10 +155,10 @@ function UsersPage(props) {
       let res = null
       if (created?.id) {
         // update
-        res = await UserApi.update(created.id, data)
+        res = await CustomerApi.update(created.id, data)
       } else {
         // create
-        res = await UserApi.create(data)
+        res = await CustomerApi.create(data)
       }
       if (!res.success) {
         throw res.error
@@ -180,7 +180,7 @@ function UsersPage(props) {
     try {
       actions.showAppLoading()
 
-      let res = await UserApi.delete(deleted.id)
+      let res = await CustomerApi.delete(deleted.id)
       if (!res.success) {
         throw res.error
       }
@@ -215,10 +215,10 @@ function UsersPage(props) {
   return (
     <Stack vertical alignment="fill">
       <AppHeader
-        title="Users"
+        title="Customers"
         actions={[
           {
-            label: 'Add user',
+            label: 'Add customer',
             primary: true,
             onClick: () => setCreated({}),
           },
@@ -235,20 +235,20 @@ function UsersPage(props) {
         </Card.Section>
         <Card.Section>
           <div>
-            Total items: <b>{users.totalItems}</b>
+            Total items: <b>{customers.totalItems}</b>
           </div>
         </Card.Section>
         <Table
           {...props}
-          {...users}
+          {...customers}
           onEdit={(item) => setCreated(item)}
           onDelete={(item) => setDeleted(item)}
         />
         <Card.Section>
           <MyPagination
-            page={users.page}
-            limit={users.limit}
-            totalPages={users.totalPages}
+            page={customers.page}
+            limit={customers.limit}
+            totalPages={customers.totalPages}
             onChange={({ page, limit }) => handleFilter({ page, limit })}
           />
         </Card.Section>
@@ -264,4 +264,4 @@ function UsersPage(props) {
   )
 }
 
-export default UsersPage
+export default CustomersPage

@@ -12,35 +12,11 @@ function Table(props) {
   let rows = items.map((item, index) => [
     (page - 1) * limit + index + 1,
     <Stack vertical spacing="extraTight">
-      <Stack spacing="tight" wrap={false}>
-        <Stack.Item>
-          <Avatar alt={item.fullName} src={item.avatar} size="3em" />
-        </Stack.Item>
-        <Stack.Item>
-          <p>
-            <b>{item.fullName}</b>
-          </p>
-          <p>
-            <i>{item.username}</i>
-          </p>
-        </Stack.Item>
-      </Stack>
-      <Stack spacing="extraTight">
-        {item.photos?.length > 0 &&
-          item.photos.map((_item, _index) => (
-            <Stack.Item key={_index}>
-              <Thumbnail alt="" source={_item} size="small" />
-            </Stack.Item>
-          ))}
-      </Stack>
+      <div>
+        <b>{item.name}</b>
+      </div>
     </Stack>,
-    <Stack vertical spacing="extraTight">
-      <Stack.Item>Email: {item.email}</Stack.Item>
-      <Stack.Item>Country: {item.country?.name}</Stack.Item>
-      <Stack.Item>Gender: {item.gender ? 'Male' : 'Female'}</Stack.Item>
-      <Stack.Item>Birthday: {formatDateTime(item.birthday, 'LL')}</Stack.Item>
-      <Stack.Item>Age: {item.age}</Stack.Item>
-    </Stack>,
+    <Stack vertical spacing="extraTight"></Stack>,
     <Popover
       active={item.id === selected?.id}
       activator={
@@ -75,7 +51,7 @@ function Table(props) {
   return (
     <DataTable
       columnContentTypes={['text', 'text', 'text', 'text']}
-      headings={['No.', 'User', 'Advanced', 'Action']}
+      headings={['No.', 'Country', 'Advanced', 'Action']}
       rows={rows}
     />
   )

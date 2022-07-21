@@ -2,15 +2,14 @@ import moment from 'moment'
 
 /**
  *
- * @param {String | Number} datetime
+ * @param {Date} datetime
  * @param {String} type
  * @returns String
  */
 const formatDateTime = (datetime, type = 'YYYY-MM-DD') => {
   try {
-    let _datetime = new Date(datetime).getTime()
+    const newDate = new Date(datetime)
 
-    const newDate = new Date(_datetime)
     const yyyy = newDate.getFullYear()
     const yyyyStr = `${yyyy}`
     const mm = newDate.getMonth() + 1
@@ -33,15 +32,15 @@ const formatDateTime = (datetime, type = 'YYYY-MM-DD') => {
 
       case 'Month DD, YYYY':
         // December 25, 2020
-        return moment(_datetime).format('LL')
+        return moment(newDate).format('LL')
 
       case 'LL':
         // December 25, 2020
-        return moment(_datetime).format(type)
+        return moment(newDate).format(type)
 
       case 'LLL':
         // December 29, 2020 12:00 AM
-        return moment(_datetime).format(type)
+        return moment(newDate).format(type)
 
       default:
         // 2020-02-26

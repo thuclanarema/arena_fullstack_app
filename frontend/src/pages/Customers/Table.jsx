@@ -13,29 +13,21 @@ function Table(props) {
     (page - 1) * limit + index + 1,
     <Stack vertical spacing="extraTight">
       <Stack spacing="tight" wrap={false}>
-        <Stack.Item>
-          <Avatar alt={item.fullName} src={item.avatar} size="3em" />
-        </Stack.Item>
-        <Stack.Item>
-          <p>
-            <b>{item.fullName}</b>
-          </p>
-          <p>
-            <i>{item.username}</i>
-          </p>
-        </Stack.Item>
+        <Avatar alt={item.fullName} src={item.avatar} size="3em" />
+        <div>
+          <b>{item.fullName}</b>
+        </div>
       </Stack>
       <Stack spacing="extraTight">
         {item.photos?.length > 0 &&
           item.photos.map((_item, _index) => (
-            <Stack.Item key={_index}>
-              <Thumbnail alt="" source={_item} size="small" />
-            </Stack.Item>
+            <Thumbnail key={_index} alt="" source={_item} size="small" />
           ))}
       </Stack>
     </Stack>,
     <Stack vertical spacing="extraTight">
       <Stack.Item>Email: {item.email}</Stack.Item>
+      <Stack.Item>Phone: {item.phone}</Stack.Item>
       <Stack.Item>Country: {item.country?.name}</Stack.Item>
       <Stack.Item>Gender: {item.gender ? 'Male' : 'Female'}</Stack.Item>
       <Stack.Item>Birthday: {formatDateTime(item.birthday, 'LL')}</Stack.Item>
@@ -75,7 +67,7 @@ function Table(props) {
   return (
     <DataTable
       columnContentTypes={['text', 'text', 'text', 'text']}
-      headings={['No.', 'User', 'Advanced', 'Action']}
+      headings={['No.', 'Customer', 'Advanced', 'Action']}
       rows={rows}
     />
   )

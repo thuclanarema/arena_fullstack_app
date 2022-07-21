@@ -1,15 +1,15 @@
 import apiCaller from '../helpers/apiCaller.js'
 
 const count = async () => {
-  return await apiCaller(`/api/users/count`)
+  return await apiCaller(`/api/customers/count`)
 }
 
 const find = async (query) => {
-  return await apiCaller(`/api/users${query}`)
+  return await apiCaller(`/api/customers${query}`)
 }
 
 const findById = async (id) => {
-  return await apiCaller(`/api/users/${id}`)
+  return await apiCaller(`/api/customers/${id}`)
 }
 
 const create = async (data) => {
@@ -22,7 +22,7 @@ const create = async (data) => {
     data['photos'].forEach((item) => formData.append('photos', item))
   }
 
-  return await apiCaller(`/api/users`, 'POST', formData)
+  return await apiCaller(`/api/customers`, 'POST', formData)
 }
 
 const update = async (id, data) => {
@@ -35,13 +35,13 @@ const update = async (id, data) => {
     data['photos'].forEach((item) => formData.append('photos', item))
   }
 
-  return await apiCaller(`/api/users/${id}`, 'PUT', formData)
+  return await apiCaller(`/api/customers/${id}`, 'PUT', formData)
 }
 
 const _delete = async (id) => {
-  return await apiCaller(`/api/users/${id}`, 'DELETE')
+  return await apiCaller(`/api/customers/${id}`, 'DELETE')
 }
 
-const UserApi = { count, find, findById, create, update, delete: _delete }
+const CustomerApi = { count, find, findById, create, update, delete: _delete }
 
-export default UserApi
+export default CustomerApi

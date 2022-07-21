@@ -6,21 +6,14 @@ export default {
     try {
       return await Repository.count()
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
 
   find: async (req) => {
     try {
-      const { page, limit } = req.query
-
-      let _page = parseInt(page) >= 1 ? parseInt(page) : 1
-      let _limit = parseInt(limit) >= 0 ? parseInt(limit) : 20
-
-      return await Repository.find({ page: _page, limit: _limit })
+      return await Repository.find(req.query)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -39,31 +32,8 @@ export default {
     try {
       let data = { ...req.body }
 
-      if (req.files.avatar) {
-        // upload to cloudinary
-        let file = await CloudinaryUploader.upload(req.files.avatar[0])
-
-        data.avatar = file.secure_url
-      } else {
-        data.avatar = ''
-      }
-
-      if (req.files.photos) {
-        // upload to cloudinary
-        let files = []
-        for (let i = 0; i < req.files.photos.length; i++) {
-          let file = await CloudinaryUploader.upload(req.files.photos[i])
-          files.push(file)
-        }
-
-        data.photos = files.map((item) => item.secure_url)
-      } else {
-        data.photos = []
-      }
-
       return await Repository.create(data)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -71,29 +41,10 @@ export default {
   update: async (req) => {
     try {
       const { id } = req.params
-      const data = { ...req.body }
-
-      if (req.files.avatar) {
-        // upload to cloudinary
-        let file = await CloudinaryUploader.upload(req.files.avatar[0])
-
-        data.avatar = file.secure_url
-      }
-
-      if (req.files.photos) {
-        // upload to cloudinary
-        let files = []
-        for (let i = 0; i < req.files.photos.length; i++) {
-          let file = await CloudinaryUploader.upload(req.files.photos[i])
-          files.push(file)
-        }
-
-        data.photos = files.map((item) => item.secure_url)
-      }
+      let data = { ...req.body }
 
       return await Repository.update(id, data)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -104,7 +55,6 @@ export default {
 
       return await Repository.delete(id)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -115,7 +65,6 @@ export default {
 
       return await Repository.login(username, password)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },
@@ -126,7 +75,6 @@ export default {
 
       return await Repository.getByToken(authorization)
     } catch (error) {
-      console.log(error)
       throw error
     }
   },

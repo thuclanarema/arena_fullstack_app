@@ -60,6 +60,7 @@ function MyPagination(props) {
               content: item,
               onAction: () => {
                 setLimit(item)
+                setPage(1)
                 setLimitExpanded(false)
               },
             }))}

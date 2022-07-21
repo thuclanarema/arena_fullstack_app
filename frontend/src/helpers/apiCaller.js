@@ -17,6 +17,9 @@ const apiCaller = async (endpoint, method, data, extraHeaders) => {
       data: data || undefined,
       headers: {
         // Authorization: `Bearer ${token}`,
+        // 'Content-Type': 'application/json',
+        // 'Content-Type': 'multipart/form-data',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
         ...(extraHeaders || {}),
       },
     }

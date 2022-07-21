@@ -1,7 +1,7 @@
 import express from 'express'
-import Controller from '../controllers/country.js'
-import Validator from '../validator/country.js'
 import MulterUpload from '../connector/multer/index.js'
+import Controller from '../controllers/customer.js'
+import Validator from '../validator/customer.js'
 
 const router = express.Router()
 

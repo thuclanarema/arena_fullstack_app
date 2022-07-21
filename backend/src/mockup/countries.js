@@ -1,105 +1,54 @@
 let data = [
   {
-    name: 'Indonesia',
+    name: 'Japan',
+  },
+  {
+    name: 'Argentina',
+  },
+  {
+    name: 'Sweden',
+  },
+  {
+    name: 'Ecuador',
+  },
+  {
+    name: 'China',
+  },
+  {
+    name: 'Poland',
+  },
+  {
+    name: 'Cape Verde',
+  },
+  {
+    name: 'China',
   },
   {
     name: 'Russia',
   },
   {
-    name: 'China',
-  },
-  {
-    name: 'Colombia',
-  },
-  {
-    name: 'China',
-  },
-  {
-    name: 'Serbia',
-  },
-  {
-    name: 'United States',
-  },
-  {
-    name: 'China',
-  },
-  {
     name: 'Portugal',
+  },
+  {
+    name: 'Kyrgyzstan',
+  },
+  {
+    name: 'Syria',
   },
   {
     name: 'Indonesia',
   },
   {
-    name: 'Portugal',
-  },
-  {
-    name: 'China',
-  },
-  {
-    name: 'Macedonia',
-  },
-  {
-    name: 'Portugal',
-  },
-  {
-    name: 'Indonesia',
-  },
-  {
-    name: 'Egypt',
-  },
-  {
-    name: 'Portugal',
-  },
-  {
-    name: 'China',
-  },
-  {
-    name: 'Czech Republic',
-  },
-  {
-    name: 'Indonesia',
+    name: 'Russia',
   },
   {
     name: 'Brazil',
   },
   {
-    name: 'Afghanistan',
+    name: 'Hungary',
   },
   {
-    name: 'China',
-  },
-  {
-    name: 'Philippines',
-  },
-  {
-    name: 'Russia',
-  },
-  {
-    name: 'Georgia',
-  },
-  {
-    name: 'China',
-  },
-  {
-    name: 'Japan',
-  },
-  {
-    name: 'Philippines',
-  },
-  {
-    name: 'Japan',
-  },
-  {
-    name: 'Ukraine',
-  },
-  {
-    name: 'Vietnam',
-  },
-  {
-    name: 'Uzbekistan',
-  },
-  {
-    name: 'Lithuania',
+    name: 'Portugal',
   },
   {
     name: 'Bangladesh',
@@ -108,148 +57,76 @@ let data = [
     name: 'China',
   },
   {
-    name: 'Mongolia',
-  },
-  {
-    name: 'Bhutan',
+    name: 'Portugal',
   },
   {
     name: 'China',
-  },
-  {
-    name: 'Russia',
   },
   {
     name: 'Ukraine',
   },
   {
-    name: 'Turkmenistan',
-  },
-  {
-    name: 'Greece',
-  },
-  {
-    name: 'Argentina',
-  },
-  {
-    name: 'China',
-  },
-  {
-    name: 'Armenia',
-  },
-  {
-    name: 'China',
-  },
-  {
     name: 'Indonesia',
   },
   {
-    name: 'Guatemala',
-  },
-  {
-    name: 'Poland',
-  },
-  {
-    name: 'Philippines',
-  },
-  {
-    name: 'Russia',
-  },
-  {
     name: 'China',
   },
   {
-    name: 'Tanzania',
-  },
-  {
-    name: 'Indonesia',
-  },
-  {
-    name: 'Palestinian Territory',
-  },
-  {
     name: 'China',
-  },
-  {
-    name: 'Peru',
-  },
-  {
-    name: 'Colombia',
-  },
-  {
-    name: 'Czech Republic',
-  },
-  {
-    name: 'China',
-  },
-  {
-    name: 'Russia',
-  },
-  {
-    name: 'Russia',
-  },
-  {
-    name: 'China',
-  },
-  {
-    name: 'Indonesia',
-  },
-  {
-    name: 'Armenia',
-  },
-  {
-    name: 'China',
-  },
-  {
-    name: 'Indonesia',
-  },
-  {
-    name: 'Peru',
-  },
-  {
-    name: 'Pakistan',
-  },
-  {
-    name: 'Sri Lanka',
-  },
-  {
-    name: 'China',
-  },
-  {
-    name: 'Vietnam',
-  },
-  {
-    name: 'Vietnam',
   },
   {
     name: 'Canada',
   },
   {
+    name: 'Indonesia',
+  },
+  {
     name: 'China',
   },
   {
-    name: 'United States',
+    name: 'Argentina',
   },
   {
-    name: 'United States',
+    name: 'Sweden',
+  },
+  {
+    name: 'Indonesia',
+  },
+  {
+    name: 'Honduras',
   },
   {
     name: 'Philippines',
   },
   {
-    name: 'Syria',
+    name: 'Malaysia',
   },
   {
-    name: 'Norway',
+    name: 'Indonesia',
+  },
+  {
+    name: 'Ukraine',
   },
   {
     name: 'China',
   },
   {
-    name: 'Czech Republic',
+    name: 'Ukraine',
   },
   {
-    name: 'Marshall Islands',
+    name: 'Mexico',
+  },
+  {
+    name: 'China',
+  },
+  {
+    name: 'China',
+  },
+  {
+    name: 'China',
+  },
+  {
+    name: 'Brazil',
   },
   {
     name: 'China',
@@ -258,47 +135,176 @@ let data = [
     name: 'Indonesia',
   },
   {
-    name: 'Croatia',
-  },
-  {
-    name: 'China',
-  },
-  {
-    name: 'China',
-  },
-  {
-    name: 'Afghanistan',
-  },
-  {
-    name: 'United States',
+    name: 'Sweden',
   },
   {
     name: 'Brazil',
   },
   {
-    name: 'Philippines',
+    name: 'France',
   },
   {
-    name: 'Philippines',
-  },
-  {
-    name: 'China',
-  },
-  {
-    name: 'Philippines',
-  },
-  {
-    name: 'Brazil',
-  },
-  {
-    name: 'Bhutan',
+    name: 'Indonesia',
   },
   {
     name: 'United States',
   },
   {
+    name: 'Sweden',
+  },
+  {
+    name: 'Uzbekistan',
+  },
+  {
+    name: 'Ivory Coast',
+  },
+  {
+    name: 'Mexico',
+  },
+  {
+    name: 'Syria',
+  },
+  {
+    name: 'Vietnam',
+  },
+  {
+    name: 'Indonesia',
+  },
+  {
+    name: 'Dominican Republic',
+  },
+  {
+    name: 'Indonesia',
+  },
+  {
+    name: 'Spain',
+  },
+  {
+    name: 'Ethiopia',
+  },
+  {
+    name: 'Pakistan',
+  },
+  {
+    name: 'Iran',
+  },
+  {
+    name: 'Poland',
+  },
+  {
+    name: 'Indonesia',
+  },
+  {
+    name: 'China',
+  },
+  {
+    name: 'China',
+  },
+  {
+    name: 'Portugal',
+  },
+  {
+    name: 'China',
+  },
+  {
+    name: 'Czech Republic',
+  },
+  {
+    name: 'Norway',
+  },
+  {
+    name: 'Zambia',
+  },
+  {
+    name: 'Ukraine',
+  },
+  {
+    name: 'Japan',
+  },
+  {
+    name: 'Russia',
+  },
+  {
+    name: 'Bahrain',
+  },
+  {
+    name: 'Bosnia and Herzegovina',
+  },
+  {
+    name: 'France',
+  },
+  {
+    name: 'Portugal',
+  },
+  {
+    name: 'China',
+  },
+  {
+    name: 'France',
+  },
+  {
+    name: 'Thailand',
+  },
+  {
+    name: 'Brazil',
+  },
+  {
+    name: 'China',
+  },
+  {
+    name: 'Armenia',
+  },
+  {
+    name: 'Vietnam',
+  },
+  {
+    name: 'Indonesia',
+  },
+  {
+    name: 'Poland',
+  },
+  {
+    name: 'Nicaragua',
+  },
+  {
+    name: 'France',
+  },
+  {
+    name: 'China',
+  },
+  {
+    name: 'Peru',
+  },
+  {
+    name: 'Iraq',
+  },
+  {
+    name: 'Russia',
+  },
+  {
     name: 'Philippines',
+  },
+  {
+    name: 'Ukraine',
+  },
+  {
+    name: 'Netherlands',
+  },
+  {
+    name: 'China',
+  },
+  {
+    name: 'China',
+  },
+  {
+    name: 'China',
   },
 ]
+
+let _data = []
+data.forEach((item) =>
+  _data.map((_item) => _item.name).includes(item.name) ? null : _data.push(item),
+)
+data = _data
 
 export default data

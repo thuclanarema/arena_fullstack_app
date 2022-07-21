@@ -1,4 +1,4 @@
-import Repository from '../repositories/country.js'
+import Repository from '../repositories/customer.js'
 
 export default {
   count: async (req) => {

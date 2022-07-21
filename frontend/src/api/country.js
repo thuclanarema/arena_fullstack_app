@@ -4,11 +4,8 @@ const getCount = async () => {
   return await apiCaller(`/api/countries/count`)
 }
 
-const find = async ({ page, limit }) => {
-  let _page = page ? `&page=${page}` : ``
-  let _limit = limit ? `&limit=${limit}` : ``
-
-  return await apiCaller(`/api/countries?${_page}${_limit}`)
+const find = async (query) => {
+  return await apiCaller(`/api/countries${query}`)
 }
 
 const findById = async (id) => {

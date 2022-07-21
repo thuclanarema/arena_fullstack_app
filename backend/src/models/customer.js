@@ -3,7 +3,7 @@ import PostgresSequelize from '../connector/postgres/index.js'
 
 import CountryModel from './country.js'
 
-const Model = PostgresSequelize.define('users', {
+const Model = PostgresSequelize.define('customers', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -18,19 +18,13 @@ const Model = PostgresSequelize.define('users', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
   },
-  password: {
+  phone: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   gender: {
     type: DataTypes.BOOLEAN,
@@ -38,10 +32,6 @@ const Model = PostgresSequelize.define('users', {
   },
   birthday: {
     type: DataTypes.DATEONLY,
-  },
-  role: {
-    type: DataTypes.ENUM('GUEST', 'MEMBERSHIP', 'ADMIN'),
-    defaultValue: 'GUEST',
   },
   avatar: {
     type: DataTypes.STRING,
@@ -77,8 +67,6 @@ const Model = PostgresSequelize.define('users', {
 
 Model.prototype.toJSON = function () {
   var values = Object.assign({}, this.get())
-
-  delete values.password
 
   return values
 }
