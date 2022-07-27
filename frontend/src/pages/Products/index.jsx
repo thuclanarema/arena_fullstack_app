@@ -7,6 +7,9 @@ import Table from './Table'
 import qs from 'query-string'
 import PagePreloader from '../../components/PagePreloader'
 import MyPagination from '../../components/MyPagination'
+import CreateForm from './CreateForm'
+import ConfirmDelete from './ConfirmDelete'
+import VendorApi from '../../api/vendor'
 
 function ProductsPage(props) {
   const { actions } = props
@@ -15,6 +18,7 @@ function ProductsPage(props) {
 
   const [isReady, setIsReady] = useState(false)
   const [products, setProducts] = useState(null)
+  const [vendors, setVendors] = useState(null)
   const [created, setCreated] = useState(null)
   const [deleted, setDeleted] = useState(null)
 
@@ -23,6 +27,28 @@ function ProductsPage(props) {
       setIsReady(true)
     }
   })
+
+  const getVendors = async (query) => {
+    try {
+      actions.showAppLoading()
+
+      let res = await VendorApi.find(query)
+      if (!res.success) {
+        throw res.error
+      }
+
+      setVendors(res.data)
+    } catch (error) {
+      console.log(error)
+      actions.showNotify({ error: true, message: error.message })
+    } finally {
+      actions.hideAppLoading()
+    }
+  }
+
+  useEffect(() => {
+    getVendors('?page=1&limit=10')
+  }, [])
 
   const getProducts = async (query) => {
     try {
@@ -52,6 +78,18 @@ function ProductsPage(props) {
     return <PagePreloader />
   }
 
+  if (created) {
+    return (
+      <CreateForm
+        {...props}
+        vendor={vendors}
+        created={created}
+        onDiscard={() => setCreated(null)}
+        onSubmit={() => {}}
+      />
+    )
+  }
+
   return (
     <Stack vertical alignment="fill">
       <AppHeader
@@ -60,6 +98,7 @@ function ProductsPage(props) {
           {
             label: 'Add product',
             primary: true,
+            onClick: () => setCreated({}),
           },
         ]}
       />
@@ -83,6 +122,7 @@ function ProductsPage(props) {
           />
         </Card.Section>
       </Card>
+      {deleted && <ConfirmDelete />}
     </Stack>
   )
 }
