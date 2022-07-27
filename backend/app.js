@@ -13,12 +13,14 @@ import indexRouter from './src/routes/index.js'
 import userRouter from './src/routes/user.js'
 import countryRouter from './src/routes/country.js'
 import customerRouter from './src/routes/customer.js'
+import vendorRouter from './src/routes/vendor.js'
+import productRouter from './src/routes/product.js'
 import uploadRouter from './src/routes/upload.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5001
 const NODE_ENV = process.env.NODE_ENV || 'development'
 
 const app = express()
@@ -50,6 +52,8 @@ app.use(
 app.use('/api/users', userRouter)
 app.use('/api/countries', countryRouter)
 app.use('/api/customers', customerRouter)
+app.use('/api/vendors', vendorRouter)
+app.use('/api/products', productRouter)
 app.use('/api/upload', uploadRouter)
 
 app.get('/*', function (req, res) {
