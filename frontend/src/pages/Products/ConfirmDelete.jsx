@@ -1,12 +1,19 @@
 import { Button, Modal, TextContainer } from '@shopify/polaris'
-import { useState, useCallback } from 'react'
+import PropTypes from 'prop-types'
 
 function ConfirmDelete(props) {
-  const { onDiscard, onDelete } = props
+  const { onDiscard, onSubmit } = props
+  ConfirmDelete.propTypes = {
+    onDiscard: PropTypes.func,
+    onSubmit: PropTypes.func,
+  }
 
+  ConfirmDelete.defaultProps = {
+    onDiscard: () => null,
+    onSubmit: () => null,
+  }
   return (
     <Modal
-      activator={<Button onClick={() => {}}> </Button>}
       open={true}
       onClose={onDiscard}
       title="Are you sure want to delete?"
@@ -15,11 +22,10 @@ function ConfirmDelete(props) {
           content: 'Discard',
           onAction: onDiscard,
         },
-      ]}
-      primaryAction={[
         {
           content: 'Delete now ',
-          onAction: onDelete,
+          onAction: onSubmit,
+          destructive: true,
         },
       ]}
     >

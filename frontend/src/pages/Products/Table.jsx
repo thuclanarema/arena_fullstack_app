@@ -7,7 +7,6 @@ function Table(props) {
   const { items, page, limit, onEdit, onDelete } = props
 
   const [selected, setSelected] = useState(null)
-
   let rows = items.map((item, index) => [
     (page - 1) * limit + index + 1,
     <Stack vertical spacing="extraTight">
@@ -38,7 +37,7 @@ function Table(props) {
       <Stack.Item>Price: {item.price}</Stack.Item>
       <Stack.Item>Vendor: {item.vendor?.name}</Stack.Item>
       <Stack.Item>Status: {item.status}</Stack.Item>
-      <Stack.Item>Published: {item.publish.toString()}</Stack.Item>
+      <Stack.Item>Publish: {item.publish.toString()}</Stack.Item>
     </Stack>,
     <Popover
       active={item.id === selected?.id}
