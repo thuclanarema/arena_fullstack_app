@@ -6,7 +6,7 @@ const schema = {
   description: Joi.string().min(3).max(200).required(),
   handle: Joi.string().min(3).max(30).required(),
   price: Joi.number().integer().min(1).required(),
-  publish: Joi.boolean().required(),
+  publish: Joi.any(),
   status: Joi.string().valid('ACTIVE', 'DRAFT', 'ARCHIVED').required(),
   thumbnail: Joi.any(),
   images: Joi.any(),

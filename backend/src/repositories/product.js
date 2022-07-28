@@ -78,7 +78,6 @@ const create = async (data) => {
 const update = async (id, data) => {
   try {
     const updated = await Model.update(data, { where: { id }, returning: true, plain: true })
-    console.log('update', updated)
     return findById(updated[1].id)
   } catch (error) {
     throw error
