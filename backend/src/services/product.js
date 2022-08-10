@@ -17,7 +17,7 @@ export default {
   },
   findById: async (req) => {
     try {
-      let { id } = req.params
+      const { id } = req.params
       return await Repository.findById(id)
     } catch (error) {
       throw error
@@ -25,7 +25,7 @@ export default {
   },
   create: async (req) => {
     try {
-      const data = { ...req.body }
+      let data = { ...req.body }
       return Repository.create(data)
     } catch (error) {
       throw error
@@ -33,9 +33,8 @@ export default {
   },
   update: async (req) => {
     try {
-      let { id } = req.params
-      console.log('id', id)
-      const data = { ...req.body }
+      const { id } = req.params
+      let data = { ...req.body }
       return Repository.update(id, data)
     } catch (error) {
       throw error
@@ -43,7 +42,7 @@ export default {
   },
   delete: async (req) => {
     try {
-      let { id } = req.params
+      const { id } = req.params
       return Repository.delete(id)
     } catch (error) {
       throw error

@@ -12,7 +12,7 @@ const count = async () => {
   }
 }
 
-const find = async ({ page, limit, keyword, status, vendorId }) => {
+const find = async ({ page, limit, keyword, status, vendorId, publish, minPrice, maxPrice }) => {
   try {
     const _page = page ? (parseInt(page) >= 1 ? parseInt(page) : 1) : 1
     const _limit = limit ? (parseInt(limit) >= 1 ? parseInt(limit) : 20) : 20
@@ -29,6 +29,20 @@ const find = async ({ page, limit, keyword, status, vendorId }) => {
     }
     if (status !== undefined) {
       where = { ...where, status }
+    }
+
+    if (minPrice && maxPrice) {
+      where = {
+        ...where,
+        [Op.and]: [
+          { price: { [Op.gte]: parseInt(minPrice) } },
+          { price: { [Op.lte]: parseInt(maxPrice) } },
+        ],
+      }
+    }
+
+    if (publish != undefined) {
+      where = { ...where, publish }
     }
 
     if (vendorId) {
@@ -77,6 +91,7 @@ const create = async (data) => {
 
 const update = async (id, data) => {
   try {
+    console.log('data', data)
     const updated = await Model.update(data, { where: { id }, returning: true, plain: true })
     return findById(updated[1].id)
   } catch (error) {
