@@ -13,7 +13,12 @@ const findById = async (id) => {
 }
 
 const create = async (data) => {
-  const formData = new FormData()
+  const formData = new FormData() // Tao một formData.append {key:value}
+
+  // Object.keys trả về 1 array chứa các string key ['key',...]
+  // filter trả về một array chứa các phần tử thỏa mãn điều kiện
+  // Phương thức includes trả về true nếu phần tử có trong mảng
+  // forEach gọi callback handle từng phần tử trong mảng
   Object.keys(data)
     .filter((name) => !['images'].includes(name))
     .forEach((name) => formData.append(name, data[name]))

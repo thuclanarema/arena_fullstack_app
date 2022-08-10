@@ -74,17 +74,14 @@ function ProductsPage(props) {
   }
 
   useEffect(() => {
-    console.log('useEffect location')
-    console.log(qs.parse(location.search))
     getProducts(location.search)
   }, [location])
-
   const handleSubmit = async (formData) => {
     try {
       actions.showAppLoading()
 
-      console.log('thumnail', formData['thumbnail'].value)
-      console.log('thumnailorigin', formData['thumbnail'].originValue)
+      // console.log('thumnail', formData['thumbnail'].value)
+      // console.log('thumnailorigin', formData['thumbnail'].originValue)
 
       // handle upload images
       if (formData['thumbnail'].value) {
@@ -107,18 +104,29 @@ function ProductsPage(props) {
         formData['images'].value = formData['images'].originValue
       }
 
+      console.log('formData', formData)
+
       let data = {}
       Object.keys(formData)
         .filter((key) => !['images'].includes(key))
         .forEach((key) => (formData[key].value ? (data[key] = formData[key].value) : null))
+
+      console.log('formData length', formData['images'].value.length)
       if (formData['images'].value.length) {
+        console.log('co images')
         data['images'] = formData['images'].value
+      } else {
+        data['images'] = []
+        console.log('khong co images', data['images'])
       }
 
       let res = null
       if (created?.id) {
         // update
+        console.log('data :>> ', data)
         res = await ProductApi.update(created.id, data)
+
+        console.log('res', res)
       } else {
         // create
         res = await ProductApi.create(data)
@@ -181,6 +189,15 @@ function ProductsPage(props) {
         delete params.status
       }
     }
+
+    if ('publish' in filter) {
+      if (filter.publish) {
+        params = { ...params, publish: filter.publish }
+      } else {
+        delete params.publish
+      }
+    }
+
     if ('vendorId' in filter) {
       if (filter.vendorId) {
         params = { ...params, vendorId: filter.vendorId }
@@ -195,6 +212,23 @@ function ProductsPage(props) {
         delete params.keyword
       }
     }
+
+    if ('minPrice' in filter) {
+      if (filter.minPrice) {
+        params = { ...params, minPrice: filter.minPrice }
+      } else {
+        delete params.minPrice
+      }
+    }
+
+    if ('maxPrice' in filter) {
+      if (filter.maxPrice) {
+        params = { ...params, maxPrice: filter.maxPrice }
+      } else {
+        delete params.maxPrice
+      }
+    }
+
     setSearchParams(params)
   }
 

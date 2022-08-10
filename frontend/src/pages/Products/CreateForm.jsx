@@ -146,8 +146,6 @@ function CreateForm(props) {
 
   const [formData, setFormData] = useState(initialFormData)
 
-  console.log('formData :>> ', formData)
-
   // because vendors and something can change value when Call api , we need to put into useEffect
   useEffect(() => {
     let _formData = JSON.parse(JSON.stringify(formData))
