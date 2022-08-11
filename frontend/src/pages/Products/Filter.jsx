@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   ActionList,
@@ -11,6 +11,7 @@ import {
   Tag,
   TextField,
 } from '@shopify/polaris'
+import FilterByPrice from './FilterByPrice'
 
 Filter.propTypes = {
   filter: PropTypes.object,
@@ -26,15 +27,10 @@ Filter.defaultProps = {
 function Filter(props) {
   const { filter, onChange, vendors } = props
 
-  const initialValue = [800, 1000]
-
   const [statusActive, setStatusActive] = useState(false)
   const [vendorActive, setVendorActive] = useState(false)
   const [priceActive, setPriceActive] = useState(false)
-  const [rangePrice, setRangePrice] = useState(initialValue)
   const [publishActive, setPublishActive] = useState(0)
-
-  // console.log('price', price)
 
   const [search, setSearch] = useState(filter.keyword || '')
 
@@ -86,8 +82,6 @@ function Filter(props) {
     value: '' + item.id,
     onAction: () => onChange({ ...filter, vendorId: '' + item.id }),
   }))
-
-  const handlePriceChange = useCallback((value) => setRangePrice(value), [])
 
   return (
     <Stack vertical alignment="fill">
@@ -145,26 +139,14 @@ function Filter(props) {
                   Ranger
                 </Button>
               }
-              onClose={() => setPriceActive(false)}
+              onClose={() => setPriceActive(true)}
             >
               <ActionList actionRole="menuitem" />
-              {priceActive && (
-                <Card sectioned title="Price">
-                  <RangeSlider
-                    output
-                    label="Price spent is between"
-                    value={rangePrice}
-                    min={10}
-                    max={3000}
-                    step={10}
-                    onChange={handlePriceChange}
-                  />
-                </Card>
-              )}
             </Popover>
           </ButtonGroup>
         </Stack.Item>
       </Stack>
+      {priceActive && <FilterByPrice />}
       <Stack>
         {Boolean(filter.status) && (
           <Tag onRemove={() => onChange({ ...filter, status: '' })}>

@@ -189,6 +189,7 @@ function CreateForm(props) {
       Array.from(['avatar']).map(
         (key) => (_formData[key] = { ..._formData[key], originValue: String(created[key]) }),
       )
+
       Array.from(['photos']).map(
         (key) => (_formData[key] = { ..._formData[key], originValue: created[key] || [] }),
       )

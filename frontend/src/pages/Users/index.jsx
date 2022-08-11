@@ -125,17 +125,20 @@ function UsersPage(props) {
 
       // handle upload images
       if (formData['avatar'].value) {
-        let images = await UploadApi.upload([formData['avatar'].value])
+        let images = await UploadApi.upload([formData['avatar'].value]) // data:[string]
+        // console.log('images :>> ', images)
         if (!images.success) {
           actions.showNotify({ error: true, message: images.error.message })
         }
         formData['avatar'].value = images.data[0]
       } else if (formData['avatar'].originValue) {
+        // console.log('formData avatar :>> ', formData['avatar'].originValue)
         formData['avatar'].value = formData['avatar'].originValue
       }
 
       if (formData['photos'].value.length) {
-        let images = await UploadApi.upload(formData['photos'].value)
+        let images = await UploadApi.upload(formData['photos'].value) // []:string
+        console.log('images', images)
         if (!images.success) {
           actions.showNotify({ error: true, message: images.error.message })
         }
@@ -148,11 +151,14 @@ function UsersPage(props) {
       Object.keys(formData)
         .filter((key) => !['confirmPassword', 'photos'].includes(key))
         .forEach((key) => (formData[key].value ? (data[key] = formData[key].value) : null))
+
       if (formData['photos'].value.length) {
         data['photos'] = formData['photos'].value
       }
 
       let res = null
+
+      // console.log('data :>> ', data)
       if (created?.id) {
         // update
         res = await UserApi.update(created.id, data)

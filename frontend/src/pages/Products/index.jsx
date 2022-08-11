@@ -26,7 +26,6 @@ function ProductsPage(props) {
   const [created, setCreated] = useState(null)
   const [deleted, setDeleted] = useState(null)
 
-  // console.log('log', qs.parse(location.search))
   useEffect(() => {
     if (!isReady && products && vendors) {
       setIsReady(true)
@@ -76,12 +75,10 @@ function ProductsPage(props) {
   useEffect(() => {
     getProducts(location.search)
   }, [location])
+
   const handleSubmit = async (formData) => {
     try {
       actions.showAppLoading()
-
-      // console.log('thumnail', formData['thumbnail'].value)
-      // console.log('thumnailorigin', formData['thumbnail'].originValue)
 
       // handle upload images
       if (formData['thumbnail'].value) {
@@ -104,26 +101,28 @@ function ProductsPage(props) {
         formData['images'].value = formData['images'].originValue
       }
 
-      console.log('formData', formData)
-
       let data = {}
       Object.keys(formData)
         .filter((key) => !['images'].includes(key))
         .forEach((key) => (formData[key].value ? (data[key] = formData[key].value) : null))
 
-      console.log('formData length', formData['images'].value.length)
+      if (formData['thumbnail'].value) {
+        data['thumbnail'] = formData['thumbnail'].value
+      } else {
+        data['thumbnail'] = ''
+      }
+
       if (formData['images'].value.length) {
-        console.log('co images')
         data['images'] = formData['images'].value
       } else {
         data['images'] = []
-        console.log('khong co images', data['images'])
       }
 
+      console.log('data', data)
       let res = null
       if (created?.id) {
         // update
-        console.log('data :>> ', data)
+
         res = await ProductApi.update(created.id, data)
 
         console.log('res', res)
@@ -168,6 +167,7 @@ function ProductsPage(props) {
 
   const handleFilter = (filter) => {
     let params = qs.parse(location.search)
+    console.log('params :>> ', params)
     if ('page' in filter) {
       if (filter.page) {
         params = { ...params, page: filter.page }
@@ -183,6 +183,7 @@ function ProductsPage(props) {
       }
     }
     if ('status' in filter) {
+      console.log('filter.status :>> ', filter.status)
       if (filter.status) {
         params = { ...params, status: filter.status }
       } else {
@@ -213,19 +214,11 @@ function ProductsPage(props) {
       }
     }
 
-    if ('minPrice' in filter) {
-      if (filter.minPrice) {
-        params = { ...params, minPrice: filter.minPrice }
+    if ('price' in filter) {
+      if (filter.price) {
+        params = { ...params, price: filter.price }
       } else {
-        delete params.minPrice
-      }
-    }
-
-    if ('maxPrice' in filter) {
-      if (filter.maxPrice) {
-        params = { ...params, maxPrice: filter.maxPrice }
-      } else {
-        delete params.maxPrice
+        delete params.price
       }
     }
 
