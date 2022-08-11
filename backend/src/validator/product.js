@@ -54,6 +54,7 @@ export default {
   },
   update: async (req, res, next) => {
     try {
+      console.log(req.body)
       await updateSchema.validateAsync(req.body)
 
       next()

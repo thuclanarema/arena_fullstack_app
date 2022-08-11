@@ -12,7 +12,7 @@ const count = async () => {
   }
 }
 
-const find = async ({ page, limit, keyword, status, vendorId, publish, minPrice, maxPrice }) => {
+const find = async ({ page, limit, keyword, status, vendorId, publish, price, sort }) => {
   try {
     const _page = page ? (parseInt(page) >= 1 ? parseInt(page) : 1) : 1
     const _limit = limit ? (parseInt(limit) >= 1 ? parseInt(limit) : 20) : 20
@@ -31,7 +31,9 @@ const find = async ({ page, limit, keyword, status, vendorId, publish, minPrice,
       where = { ...where, status }
     }
 
-    if (minPrice && maxPrice) {
+    if (price) {
+      const arrPrice = price.split('-')
+      const [minPrice, maxPrice] = arrPrice
       where = {
         ...where,
         [Op.and]: [
