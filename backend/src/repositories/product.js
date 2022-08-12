@@ -27,6 +27,7 @@ const find = async ({ page, limit, keyword, status, vendorId, publish, price, so
         ],
       }
     }
+
     if (status !== undefined) {
       where = { ...where, status }
     }
@@ -42,6 +43,12 @@ const find = async ({ page, limit, keyword, status, vendorId, publish, price, so
         ],
       }
     }
+    let arrSort
+    console.log('sort :>> ', sort)
+    if (sort) {
+      arrSort = sort.split('%')
+      console.log('arrSort :>> ', arrSort)
+    }
 
     if (publish != undefined) {
       where = { ...where, publish }
@@ -56,7 +63,7 @@ const find = async ({ page, limit, keyword, status, vendorId, publish, price, so
       limit,
       include,
       offset: (_page - 1) * _limit,
-      order: [['updatedAt', 'DESC']],
+      order: [arrSort ? arrSort : ['updatedAt', 'asc']],
     })
     return {
       items,
